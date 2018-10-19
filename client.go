@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 )
 
@@ -59,8 +58,6 @@ func (r *Request) Do() *Response {
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
 	}
-
-	log.Println(r)
 
 	res, err := r.service.client.Do(req)
 	if err != nil {
