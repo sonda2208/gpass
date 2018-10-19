@@ -523,5 +523,150 @@ func TestPatchOfferClass(t *testing.T) {
 			_, err := client.Patch(sampleOfferClassID, p)
 			assert.Error(t, err)
 		}
+
+		payload := map[string]string{
+			"reviewStatus": "underReview",
+			"finePrint":    "0% off any t-shirt at Adam's Apparel.",
+		}
+		_, err := client.Patch("???", payload)
+		assert.Error(t, err)
+	})
+}
+
+func TestUpdateOfferClass(t *testing.T) {
+	var (
+		router *mux.Router
+		server *httptest.Server
+	)
+
+	teardown := func() func() {
+		router = mux.NewRouter()
+		server = httptest.NewServer(router)
+		return func() {
+			server.Close()
+		}
+	}()
+	defer teardown()
+
+	client := NewOfferClassClient(server.URL, http.DefaultClient)
+
+	router.HandleFunc("/offerClass/{id}", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		if r.Method != "PUT" {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+
+		if mux.Vars(r)["id"] != sampleOfferClassID {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+
+		body := new(bytes.Buffer)
+		body.ReadFrom(r.Body)
+
+		noc := &walletobject.OfferClass{}
+		err := json.Unmarshal(body.Bytes(), noc)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		if noc.ID != sampleOfferClassID ||
+			noc.IssuerName == "" ||
+			noc.Provider == "" ||
+			noc.Title == "" {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		redemptionChannelValues := map[string]string{
+			"both":                    "",
+			"instore":                 "",
+			"online":                  "",
+			"temporaryPriceReduction": "",
+		}
+		if _, ok := redemptionChannelValues[noc.RedemptionChannel]; !ok {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		reviewStatusValues := map[string]string{
+			"approved":    "",
+			"draft":       "",
+			"rejected":    "",
+			"underReview": "",
+		}
+		if _, ok := reviewStatusValues[noc.ReviewStatus]; !ok {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		respData, err := json.Marshal(noc)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Write(respData)
+	})
+
+	t.Run("Update offer class successfully", func(t *testing.T) {
+		oc := &walletobject.OfferClass{
+			ID:                sampleOfferClassID,
+			IssuerName:        "thecoffeeshop",
+			ReviewStatus:      "underReview",
+			Provider:          "thecoffeeshop",
+			RedemptionChannel: "online",
+			Title:             "20% off",
+		}
+
+		res, err := client.Update(sampleOfferClassID, oc)
+		assert.NoError(t, err)
+
+		assert.EqualValues(t, oc, res)
+	})
+
+	t.Run("Failed to update offer class", func(t *testing.T) {
+		classes := []*walletobject.OfferClass{
+			&walletobject.OfferClass{
+				ID:                "???",
+				IssuerName:        "thecoffeeshop",
+				ReviewStatus:      "underReview",
+				Provider:          "thecoffeeshop",
+				RedemptionChannel: "online",
+				Title:             "20% off",
+			},
+			&walletobject.OfferClass{
+				ID:                sampleOfferClassID,
+				IssuerName:        "thecoffeeshop",
+				ReviewStatus:      "underReview",
+				Provider:          "thecoffeeshop",
+				RedemptionChannel: "online",
+			},
+			&walletobject.OfferClass{
+				ID:                sampleOfferClassID,
+				IssuerName:        "thecoffeeshop",
+				ReviewStatus:      "???",
+				Provider:          "thecoffeeshop",
+				RedemptionChannel: "online",
+				Title:             "20% off",
+			},
+			&walletobject.OfferClass{
+				ID:                sampleOfferClassID,
+				IssuerName:        "thecoffeeshop",
+				ReviewStatus:      "underReview",
+				Provider:          "thecoffeeshop",
+				RedemptionChannel: "???",
+				Title:             "20% off",
+			},
+		}
+
+		for _, c := range classes {
+			_, err := client.Update(c.ID, c)
+			assert.Error(t, err)
+		}
 	})
 }
