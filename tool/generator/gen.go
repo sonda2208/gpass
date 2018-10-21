@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"os"
@@ -12,14 +11,23 @@ import (
 )
 
 type Config struct {
-	ClientName           string `envconfig:"OBJECT_NAME" required:"true"`
-	CapitalizeClientName string
-	IsClass              bool
+	ClientName         string `envconfig:"OBJECT_NAME" required:"true"`
+	TemplateFilePath   string
+	RequiredFields     string `envconfig:"REQUIRED_FIELDS" required:"true"`
+	SampleID           string
+	SampleDataPath     string
+	SampleListDataPath string
 }
 
-const (
-	templateFilePath = "./client.tmpl"
-)
+type GeneratorConfig struct {
+	ClientName           string
+	CapitalizeClientName string
+	IsClass              bool
+	RequiredFields       []string
+	SampleID             string
+	SampleData           string
+	SampleListData       string
+}
 
 func loadConfig(prefixEnv string) *Config {
 	conf := &Config{}
@@ -37,25 +45,36 @@ func loadConfig(prefixEnv string) *Config {
 	return conf
 }
 
-func main() {
-	conf := loadConfig("GEN")
-	conf.CapitalizeClientName = strings.Title(conf.ClientName)
-	conf.IsClass = strings.HasSuffix(strings.ToLower(conf.ClientName), "class")
-
-	fmt.Println(conf)
-
-	t, err := template.ParseFiles(templateFilePath)
+func generateCode(conf *GeneratorConfig, tmlpPath, outputFile string) error {
+	t, err := template.ParseFiles(tmlpPath)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
-	output, err := os.Create("./" + strings.ToLower(conf.ClientName) + ".go")
+	output, err := os.Create(outputFile)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	defer output.Close()
 
 	err = t.Execute(output, conf)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func main() {
+	conf := loadConfig("GEN")
+
+	genConf := &GeneratorConfig{}
+	genConf.ClientName = conf.ClientName
+	genConf.CapitalizeClientName = strings.Title(conf.ClientName)
+	genConf.IsClass = strings.HasSuffix(strings.ToLower(conf.ClientName), "class")
+	genConf.RequiredFields = strings.Split(conf.RequiredFields, ",")
+
+	err := generateCode(genConf, conf.TemplateFilePath, "./"+strings.ToLower(conf.ClientName)+".go")
 	if err != nil {
 		log.Fatal(err)
 	}
