@@ -23,5 +23,5 @@ type LoyaltyObject struct {
 	LoyaltyPoints           *LoyaltyPoint  `json:"loyaltyPoints,omitempty"`
 	SecondaryLoyaltyPoints  *LoyaltyPoint  `json:"secondaryLoyaltyPoints,omitempty"`
 	ValidTimeInterval       *TimeInterval  `json:"validTimeInterval,omitempty"`
-	Version                 int64          `json:"version,omitempty"`
+	Version                 string         `json:"version,omitempty"`
 }
