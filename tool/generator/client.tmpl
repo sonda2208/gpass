@@ -1,0 +1,141 @@
+package googlepasses
+
+import (
+	"strconv"
+
+	"github.com/sonda2208/googlepasses-go-client/walletobject"
+)
+
+const (
+	{{.CapitalizeClientName}}ResourcePath = "{{.ClientName}}"
+)
+
+type {{.CapitalizeClientName}}Client struct {
+	Client
+}
+
+func New{{.CapitalizeClientName}}Client(basePath string, client HttpClient) *{{.CapitalizeClientName}}Client {
+	return &{{.CapitalizeClientName}}Client{
+		Client: Client{
+			basePath:     basePath,
+			client:       client,
+			resourcePath: {{.CapitalizeClientName}}ResourcePath,
+		},
+	}
+}
+
+func (c *{{.CapitalizeClientName}}Client) AddMessage(id string, m *walletobject.MessagePayload) (*walletobject.{{.CapitalizeClientName}}, error) {
+	o := &walletobject.{{.CapitalizeClientName}}{}
+	req := &Request{
+		method:      "POST",
+		url:         "/" + {{.CapitalizeClientName}}ResourcePath + "/" + id + "/addMessage",
+		queryParams: nil,
+		payload:     m,
+		service:     &c.Client,
+	}
+
+	if err := req.Do().DecodeResponse(o); err != nil {
+		return nil, err
+	}
+
+	return o, nil
+}
+
+func (c *{{.CapitalizeClientName}}Client) Get(id string) (*walletobject.{{.CapitalizeClientName}}, error) {
+	o := &walletobject.{{.CapitalizeClientName}}{}
+	req := &Request{
+		method:      "GET",
+		url:         "/" + {{.CapitalizeClientName}}ResourcePath + "/" + id,
+		queryParams: nil,
+		payload:     nil,
+		service:     &c.Client,
+	}
+
+	if err := req.Do().DecodeResponse(o); err != nil {
+		return nil, err
+	}
+
+	return o, nil
+}
+
+func (c *{{.CapitalizeClientName}}Client) List({{if .IsClass}}issuerID{{else}}classID{{end}} string, maxResults int, paginationToken string) (*walletobject.ListQueryResponse, error) {
+	r := &walletobject.ListQueryResponse{}
+	req := &Request{
+		method:      "GET",
+		url:         "/" + {{.CapitalizeClientName}}ResourcePath,
+		queryParams: &QueryParams{},
+		payload:     nil,
+		service:     &c.Client,
+	}
+
+	{{if .IsClass}}
+	req.queryParams.Set("issuerId", issuerID)
+	{{else}}
+	req.queryParams.Set("classId", classID)
+	{{end}}
+
+	if maxResults > 0 {
+		req.queryParams.Set("maxResults", strconv.Itoa(maxResults))
+	}
+
+	if paginationToken != "" {
+		req.queryParams.Set("token", paginationToken)
+	}
+
+	if err := req.Do().DecodeResponse(r); err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+func (c *{{.CapitalizeClientName}}Client) Insert(o *walletobject.{{.CapitalizeClientName}}) (*walletobject.{{.CapitalizeClientName}}, error) {
+	no := &walletobject.{{.CapitalizeClientName}}{}
+	req := &Request{
+		method:      "POST",
+		url:         "/" + {{.CapitalizeClientName}}ResourcePath,
+		queryParams: nil,
+		payload:     o,
+		service:     &c.Client,
+	}
+
+	if err := req.Do().DecodeResponse(no); err != nil {
+		return nil, err
+	}
+
+	return no, nil
+}
+
+func (c *{{.CapitalizeClientName}}Client) Patch(id string, i interface{}) (*walletobject.{{.CapitalizeClientName}}, error) {
+	o := &walletobject.{{.CapitalizeClientName}}{}
+	req := &Request{
+		method:      "PATCH",
+		url:         "/" + {{.CapitalizeClientName}}ResourcePath + "/" + id,
+		queryParams: nil,
+		payload:     i,
+		service:     &c.Client,
+	}
+
+	if err := req.Do().DecodeResponse(o); err != nil {
+		return nil, err
+	}
+
+	return o, nil
+}
+
+func (c *{{.CapitalizeClientName}}Client) Update(id string, o *walletobject.{{.CapitalizeClientName}}) (*walletobject.{{.CapitalizeClientName}}, error) {
+	no := &walletobject.{{.CapitalizeClientName}}{}
+	req := &Request{
+		method:      "PUT",
+		url:         "/" + {{.CapitalizeClientName}}ResourcePath + "/" + id,
+		queryParams: nil,
+		payload:     o,
+		service:     &c.Client,
+	}
+
+	if err := req.Do().DecodeResponse(no); err != nil {
+		return nil, err
+	}
+
+	return no, nil
+}
