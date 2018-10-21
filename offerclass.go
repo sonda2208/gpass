@@ -24,14 +24,14 @@ func NewOfferClassClient(basePath string, client HttpClient) *OfferClassClient {
 	}
 }
 
-func (s *OfferClassClient) AddMessage(id string, m *walletobject.MessagePayload) (*walletobject.OfferClass, error) {
+func (c *OfferClassClient) AddMessage(id string, m *walletobject.MessagePayload) (*walletobject.OfferClass, error) {
 	o := &walletobject.OfferClass{}
 	req := &Request{
 		method:      "POST",
 		url:         "/" + OfferClassResourcePath + "/" + id + "/addMessage",
 		queryParams: nil,
 		payload:     m,
-		service:     &s.Client,
+		service:     &c.Client,
 	}
 
 	if err := req.Do().DecodeResponse(o); err != nil {
@@ -41,14 +41,14 @@ func (s *OfferClassClient) AddMessage(id string, m *walletobject.MessagePayload)
 	return o, nil
 }
 
-func (s *OfferClassClient) Get(id string) (*walletobject.OfferClass, error) {
+func (c *OfferClassClient) Get(id string) (*walletobject.OfferClass, error) {
 	o := &walletobject.OfferClass{}
 	req := &Request{
 		method:      "GET",
 		url:         "/" + OfferClassResourcePath + "/" + id,
 		queryParams: nil,
 		payload:     nil,
-		service:     &s.Client,
+		service:     &c.Client,
 	}
 
 	if err := req.Do().DecodeResponse(o); err != nil {
@@ -58,14 +58,14 @@ func (s *OfferClassClient) Get(id string) (*walletobject.OfferClass, error) {
 	return o, nil
 }
 
-func (s *OfferClassClient) List(issuerID string, maxResults int, paginationToken string) (*walletobject.ListQueryResponse, error) {
+func (c *OfferClassClient) List(issuerID string, maxResults int, paginationToken string) (*walletobject.ListQueryResponse, error) {
 	r := &walletobject.ListQueryResponse{}
 	req := &Request{
 		method:      "GET",
 		url:         "/" + OfferClassResourcePath,
 		queryParams: &QueryParams{},
 		payload:     nil,
-		service:     &s.Client,
+		service:     &c.Client,
 	}
 
 	req.queryParams.Set("issuerId", issuerID)
@@ -85,14 +85,14 @@ func (s *OfferClassClient) List(issuerID string, maxResults int, paginationToken
 	return r, nil
 }
 
-func (s *OfferClassClient) Insert(o *walletobject.OfferClass) (*walletobject.OfferClass, error) {
+func (c *OfferClassClient) Insert(o *walletobject.OfferClass) (*walletobject.OfferClass, error) {
 	no := &walletobject.OfferClass{}
 	req := &Request{
 		method:      "POST",
 		url:         "/" + OfferClassResourcePath,
 		queryParams: nil,
 		payload:     o,
-		service:     &s.Client,
+		service:     &c.Client,
 	}
 
 	if err := req.Do().DecodeResponse(no); err != nil {
@@ -102,14 +102,14 @@ func (s *OfferClassClient) Insert(o *walletobject.OfferClass) (*walletobject.Off
 	return no, nil
 }
 
-func (s *OfferClassClient) Patch(id string, i interface{}) (*walletobject.OfferClass, error) {
+func (c *OfferClassClient) Patch(id string, i interface{}) (*walletobject.OfferClass, error) {
 	o := &walletobject.OfferClass{}
 	req := &Request{
 		method:      "PATCH",
 		url:         "/" + OfferClassResourcePath + "/" + id,
 		queryParams: nil,
 		payload:     i,
-		service:     &s.Client,
+		service:     &c.Client,
 	}
 
 	if err := req.Do().DecodeResponse(o); err != nil {
@@ -119,14 +119,14 @@ func (s *OfferClassClient) Patch(id string, i interface{}) (*walletobject.OfferC
 	return o, nil
 }
 
-func (s *OfferClassClient) Update(id string, o *walletobject.OfferClass) (*walletobject.OfferClass, error) {
+func (c *OfferClassClient) Update(id string, o *walletobject.OfferClass) (*walletobject.OfferClass, error) {
 	no := &walletobject.OfferClass{}
 	req := &Request{
 		method:      "PUT",
 		url:         "/" + OfferClassResourcePath + "/" + id,
 		queryParams: nil,
 		payload:     o,
-		service:     &s.Client,
+		service:     &c.Client,
 	}
 
 	if err := req.Do().DecodeResponse(no); err != nil {
