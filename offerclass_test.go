@@ -249,10 +249,11 @@ func TestGetOfferClass(t *testing.T) {
 		res, err := client.Get(sampleOfferClassID)
 		assert.NoError(t, err)
 
-		jsonData, err := json.Marshal(res)
+		oc := &walletobject.OfferClass{}
+		err = json.Unmarshal([]byte(sampleOfferClassData), oc)
 		assert.NoError(t, err)
 
-		assert.JSONEq(t, sampleOfferClassData, string(jsonData))
+		assert.EqualValues(t, oc, res)
 	})
 
 	t.Run("Failed to get offer class", func(t *testing.T) {
