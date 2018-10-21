@@ -300,10 +300,11 @@ func TestListOfferClasses(t *testing.T) {
 		res, err := client.List(sampleIssuerID, 0, "")
 		assert.NoError(t, err)
 
-		jsonData, err := json.Marshal(res)
+		lqr := &walletobject.ListQueryResponse{}
+		err = json.Unmarshal([]byte(sampleOfferClassesData), lqr)
 		assert.NoError(t, err)
 
-		assert.JSONEq(t, sampleOfferClassesData, string(jsonData))
+		assert.EqualValues(t, lqr, res)
 	})
 
 	t.Run("Failed to list offer classes", func(t *testing.T) {
