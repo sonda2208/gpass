@@ -85,6 +85,23 @@ func (c *LoyaltyObjectClient) List(classID string, maxResults int, paginationTok
 	return r, nil
 }
 
+func (c *LoyaltyObjectClient) ModifyLinkedOfferObject(id string, ids *walletobject.LinkedOfferObjectIds) (*walletobject.LoyaltyObject, error) {
+	l := &walletobject.LoyaltyObject{}
+	req := &Request{
+		method:      "POST",
+		url:         "/" + LoyaltyObjectResourcePath + "/" + id + "/modifyLinkedOfferObjects",
+		queryParams: nil,
+		payload:     ids,
+		service:     &c.Client,
+	}
+
+	if err := req.Do().DecodeResponse(l); err != nil {
+		return nil, err
+	}
+
+	return l, nil
+}
+
 func (c *LoyaltyObjectClient) Insert(l *walletobject.LoyaltyObject) (*walletobject.LoyaltyObject, error) {
 	nl := &walletobject.LoyaltyObject{}
 	req := &Request{
