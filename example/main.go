@@ -117,6 +117,22 @@ func testLoyaltyClass(conf *AppConfig, client *http.Client) {
 	log.Println(nlc)
 }
 
+func testLoyaltyObject(conf *AppConfig, client *http.Client) {
+	loClient := googlepasses.NewLoyaltyObjectClient(googlepasses.GooglePayAPIBasePath, client)
+
+	// insert new loyalty object
+	lo := &walletobject.LoyaltyObject{
+		ID:      fmt.Sprintf("%s.%s.1", conf.IssuerID, conf.LoyaltyObjectPrefix),
+		ClassID: fmt.Sprintf("%s.%s.1", conf.IssuerID, conf.LoyaltyClassPrefix),
+		State:   "active",
+	}
+	nlo, err := loClient.Insert(lo)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(nlo)
+}
+
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
@@ -128,4 +144,5 @@ func main() {
 
 	// testOfferClass(conf, jwtConfig.Client(context.TODO()))
 	// testLoyaltyClass(conf, jwtConfig.Client(context.TODO()))
+	// testLoyaltyObject(conf, jwtConfig.Client(context.TODO()))
 }
