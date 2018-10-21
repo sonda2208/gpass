@@ -900,10 +900,10 @@ func TestInsertOfferObject(t *testing.T) {
 		}
 
 		states := map[string]string{
-			"active":          "",
-			"completed":       "",
-			"rejecexpiredted": "",
-			"inactive":        "",
+			"active":    "",
+			"completed": "",
+			"expired":   "",
+			"inactive":  "",
 		}
 		if _, ok := states[oo.State]; !ok {
 			w.WriteHeader(http.StatusBadRequest)
