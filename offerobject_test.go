@@ -900,10 +900,10 @@ func TestInsertOfferObject(t *testing.T) {
 		}
 
 		states := map[string]string{
-			"active":          "",
-			"completed":       "",
-			"rejecexpiredted": "",
-			"inactive":        "",
+			"active":    "",
+			"completed": "",
+			"expired":   "",
+			"inactive":  "",
 		}
 		if _, ok := states[oo.State]; !ok {
 			w.WriteHeader(http.StatusBadRequest)
@@ -916,8 +916,8 @@ func TestInsertOfferObject(t *testing.T) {
 
 	t.Run("Insert new offer object successfully", func(t *testing.T) {
 		oo := &walletobject.OfferObject{
-			ID:      "1114132711145979111.TestOfferObject.1",
-			ClassID: "1114132711145979111.TestOfferClass.1",
+			ID:      sampleOfferObjectID,
+			ClassID: sampleOfferClassID,
 			State:   "active",
 		}
 
@@ -931,11 +931,11 @@ func TestInsertOfferObject(t *testing.T) {
 		objects := []*walletobject.OfferObject{
 			&walletobject.OfferObject{
 				ID:      sampleOfferObjectID,
-				ClassID: "1114132711145979111.TestOfferClass.1",
+				ClassID: sampleOfferClassID,
 			},
 			&walletobject.OfferObject{
 				ID:      sampleOfferObjectID,
-				ClassID: "1114132711145979111.TestOfferClass.1",
+				ClassID: sampleOfferClassID,
 				State:   "???",
 			},
 			&walletobject.OfferObject{
@@ -1099,8 +1099,8 @@ func TestUpdateOfferObject(t *testing.T) {
 
 	t.Run("Update offer object successfully", func(t *testing.T) {
 		oo := &walletobject.OfferObject{
-			ID:      "1114132711145979111.TestOfferObject.1",
-			ClassID: "1114132711145979111.TestOfferClass.1",
+			ID:      sampleOfferObjectID,
+			ClassID: sampleOfferClassID,
 			State:   "active",
 		}
 
@@ -1114,11 +1114,11 @@ func TestUpdateOfferObject(t *testing.T) {
 		objects := []*walletobject.OfferObject{
 			&walletobject.OfferObject{
 				ID:      sampleOfferObjectID,
-				ClassID: "1114132711145979111.TestOfferClass.1",
+				ClassID: sampleOfferClassID,
 			},
 			&walletobject.OfferObject{
 				ID:      sampleOfferObjectID,
-				ClassID: "1114132711145979111.TestOfferClass.1",
+				ClassID: sampleOfferClassID,
 				State:   "???",
 			},
 			&walletobject.OfferObject{

@@ -23,4 +23,5 @@ type GiftCardObject struct {
 	LinksModuleData         *LinksModule   `json:"linksModuleData,omitempty"`
 	ImageModulesData        *ImageModule   `json:"imageModulesData,omitempty"`
 	ValidTimeInterval       *TimeInterval  `json:"validTimeInterval,omitempty"`
+	Version                 string         `json:"version,omitempty"`
 }
