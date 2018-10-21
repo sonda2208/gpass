@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
 	googlepasses "github.com/sonda2208/googlepasses-go-client"
+	"github.com/sonda2208/googlepasses-go-client/walletobject"
 	"golang.org/x/oauth2/google"
 	"golang.org/x/oauth2/jwt"
 )
@@ -58,37 +60,61 @@ func loadJWTConfig(keyPath string) *jwt.Config {
 
 func testOfferClass(conf *AppConfig, client *http.Client) {
 	// create offer class service
-	ocsvc := googlepasses.NewOfferClassClient("", client)
-	_ = ocsvc
+	ocClient := googlepasses.NewOfferClassClient("", client)
+	_ = ocClient
 
-	// // list offer classes
-	// _, err := ocsvc.List(conf.IssuerID, 2, "")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// log.Println(res.Pagination)
+	// list offer classes
+	res, err := ocClient.List(conf.IssuerID, 2, "")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(res.Pagination)
 
-	// // get offer class
-	// oc, err := ocsvc.Get(conf.IssuerID + ".OfferClass02")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// log.Println(oc)
+	// get offer class
+	oc, err := ocClient.Get(conf.IssuerID + ".OfferClass02")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(oc)
 
-	// // insert new offer class
-	// noc := &walletobject.OfferClass{
-	// 	ID:                fmt.Sprintf("%s.%s.2", conf.IssuerID, conf.OfferClassPrefix),
-	// 	IssuerName:        "thecoffeeshop",
-	// 	ReviewStatus:      "underReview",
-	// 	Provider:          "thecoffeeshop",
-	// 	RedemptionChannel: "online",
-	// 	Title:             "20% off",
-	// }
-	// noc, err := ocsvc.Insert(noc)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// log.Println(noc)
+	// insert new offer class
+	noc := &walletobject.OfferClass{
+		ID:                fmt.Sprintf("%s.%s.2", conf.IssuerID, conf.OfferClassPrefix),
+		IssuerName:        "thecoffeeshop",
+		ReviewStatus:      "underReview",
+		Provider:          "thecoffeeshop",
+		RedemptionChannel: "online",
+		Title:             "20% off",
+	}
+	noc, err = ocClient.Insert(noc)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(noc)
+}
+
+func testLoyaltyClass(conf *AppConfig, client *http.Client) {
+	lcClient := googlepasses.NewLoyaltyClassClient(googlepasses.GooglePayAPIBasePath, client)
+
+	// insert new loyalty class
+	lc := &walletobject.LoyaltyClass{
+		ID:           fmt.Sprintf("%s.%s.1", conf.IssuerID, conf.LoyaltyClassPrefix),
+		IssuerName:   "thecoffeeshop",
+		ReviewStatus: "underReview",
+		ProgramName:  "Loyalty Card",
+		ProgramLogo: &walletobject.Image{
+			Kind: "walletobjects#image",
+			SourceURI: &walletobject.URI{
+				Kind: "walletobjects#uri",
+				URI:  "http://farm8.staticflickr.com/7340/11177041185_a61a7f2139_o.jpg",
+			},
+		},
+	}
+	nlc, err := lcClient.Insert(lc)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(nlc)
 }
 
 func main() {
@@ -101,4 +127,5 @@ func main() {
 	log.Println(tk.AccessToken)
 
 	// testOfferClass(conf, jwtConfig.Client(context.TODO()))
+	// testLoyaltyClass(conf, jwtConfig.Client(context.TODO()))
 }
