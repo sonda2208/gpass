@@ -307,7 +307,7 @@ func TestGetLoyaltyClass(t *testing.T) {
 	})
 
 	t.Run("Failed to get loyalty class", func(t *testing.T) {
-		_, err := client.Get("abc")
+		_, err := client.Get("???")
 		assert.Error(t, err)
 	})
 }
