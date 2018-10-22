@@ -7,28 +7,28 @@ import (
 )
 
 const (
-	GiftCardObjectResourcePath = "giftCardObject"
+	GiftcardObjectResourcePath = "GiftcardObject"
 )
 
-type GiftCardObjectClient struct {
+type GiftcardObjectClient struct {
 	Client
 }
 
-func NewGiftCardObjectClient(basePath string, client HttpClient) *GiftCardObjectClient {
-	return &GiftCardObjectClient{
+func NewGiftcardObjectClient(basePath string, client HttpClient) *GiftcardObjectClient {
+	return &GiftcardObjectClient{
 		Client: Client{
 			basePath:     basePath,
 			client:       client,
-			resourcePath: GiftCardObjectResourcePath,
+			resourcePath: GiftcardObjectResourcePath,
 		},
 	}
 }
 
-func (c *GiftCardObjectClient) AddMessage(id string, m *walletobject.MessagePayload) (*walletobject.GiftCardObject, error) {
-	o := &walletobject.GiftCardObject{}
+func (c *GiftcardObjectClient) AddMessage(id string, m *walletobject.MessagePayload) (*walletobject.GiftcardObject, error) {
+	o := &walletobject.GiftcardObject{}
 	req := &Request{
 		method:      "POST",
-		url:         "/" + GiftCardObjectResourcePath + "/" + id + "/addMessage",
+		url:         "/" + GiftcardObjectResourcePath + "/" + id + "/addMessage",
 		queryParams: nil,
 		payload:     m,
 		service:     &c.Client,
@@ -41,11 +41,11 @@ func (c *GiftCardObjectClient) AddMessage(id string, m *walletobject.MessagePayl
 	return o, nil
 }
 
-func (c *GiftCardObjectClient) Get(id string) (*walletobject.GiftCardObject, error) {
-	o := &walletobject.GiftCardObject{}
+func (c *GiftcardObjectClient) Get(id string) (*walletobject.GiftcardObject, error) {
+	o := &walletobject.GiftcardObject{}
 	req := &Request{
 		method:      "GET",
-		url:         "/" + GiftCardObjectResourcePath + "/" + id,
+		url:         "/" + GiftcardObjectResourcePath + "/" + id,
 		queryParams: nil,
 		payload:     nil,
 		service:     &c.Client,
@@ -58,19 +58,17 @@ func (c *GiftCardObjectClient) Get(id string) (*walletobject.GiftCardObject, err
 	return o, nil
 }
 
-func (c *GiftCardObjectClient) List(classID string, maxResults int, paginationToken string) (*walletobject.ListQueryResponse, error) {
+func (c *GiftcardObjectClient) List(classID string, maxResults int, paginationToken string) (*walletobject.ListQueryResponse, error) {
 	r := &walletobject.ListQueryResponse{}
 	req := &Request{
 		method:      "GET",
-		url:         "/" + GiftCardObjectResourcePath,
+		url:         "/" + GiftcardObjectResourcePath,
 		queryParams: &QueryParams{},
 		payload:     nil,
 		service:     &c.Client,
 	}
 
-	
 	req.queryParams.Set("classId", classID)
-	
 
 	if maxResults > 0 {
 		req.queryParams.Set("maxResults", strconv.Itoa(maxResults))
@@ -87,11 +85,11 @@ func (c *GiftCardObjectClient) List(classID string, maxResults int, paginationTo
 	return r, nil
 }
 
-func (c *GiftCardObjectClient) Insert(o *walletobject.GiftCardObject) (*walletobject.GiftCardObject, error) {
-	no := &walletobject.GiftCardObject{}
+func (c *GiftcardObjectClient) Insert(o *walletobject.GiftcardObject) (*walletobject.GiftcardObject, error) {
+	no := &walletobject.GiftcardObject{}
 	req := &Request{
 		method:      "POST",
-		url:         "/" + GiftCardObjectResourcePath,
+		url:         "/" + GiftcardObjectResourcePath,
 		queryParams: nil,
 		payload:     o,
 		service:     &c.Client,
@@ -104,11 +102,11 @@ func (c *GiftCardObjectClient) Insert(o *walletobject.GiftCardObject) (*walletob
 	return no, nil
 }
 
-func (c *GiftCardObjectClient) Patch(id string, i interface{}) (*walletobject.GiftCardObject, error) {
-	o := &walletobject.GiftCardObject{}
+func (c *GiftcardObjectClient) Patch(id string, i interface{}) (*walletobject.GiftcardObject, error) {
+	o := &walletobject.GiftcardObject{}
 	req := &Request{
 		method:      "PATCH",
-		url:         "/" + GiftCardObjectResourcePath + "/" + id,
+		url:         "/" + GiftcardObjectResourcePath + "/" + id,
 		queryParams: nil,
 		payload:     i,
 		service:     &c.Client,
@@ -121,11 +119,11 @@ func (c *GiftCardObjectClient) Patch(id string, i interface{}) (*walletobject.Gi
 	return o, nil
 }
 
-func (c *GiftCardObjectClient) Update(id string, o *walletobject.GiftCardObject) (*walletobject.GiftCardObject, error) {
-	no := &walletobject.GiftCardObject{}
+func (c *GiftcardObjectClient) Update(id string, o *walletobject.GiftcardObject) (*walletobject.GiftcardObject, error) {
+	no := &walletobject.GiftcardObject{}
 	req := &Request{
 		method:      "PUT",
-		url:         "/" + GiftCardObjectResourcePath + "/" + id,
+		url:         "/" + GiftcardObjectResourcePath + "/" + id,
 		queryParams: nil,
 		payload:     o,
 		service:     &c.Client,

@@ -134,7 +134,7 @@ func testLoyaltyObject(conf *AppConfig, client *http.Client) {
 }
 
 func testGiftcardClass(conf *AppConfig, client *http.Client) {
-	gcClient := googlepasses.NewGiftCardClassClient(googlepasses.GooglePayAPIBasePath, client)
+	gcClient := googlepasses.NewGiftcardClassClient(googlepasses.GooglePayAPIBasePath, client)
 
 	res, err := gcClient.List(conf.IssuerID, 0, "")
 	if err != nil {
@@ -144,7 +144,7 @@ func testGiftcardClass(conf *AppConfig, client *http.Client) {
 }
 
 func testGiftcardObject(conf *AppConfig, client *http.Client) {
-	gcClient := googlepasses.NewGiftCardObjectClient(googlepasses.GooglePayAPIBasePath, client)
+	gcClient := googlepasses.NewGiftcardObjectClient(googlepasses.GooglePayAPIBasePath, client)
 
 	res, err := gcClient.List(fmt.Sprintf("%s.%s.1", conf.IssuerID, conf.GiftCardClassPrefix), 0, "")
 	if err != nil {
@@ -165,6 +165,6 @@ func main() {
 	// testOfferClass(conf, jwtConfig.Client(context.TODO()))
 	// testLoyaltyClass(conf, jwtConfig.Client(context.TODO()))
 	// testLoyaltyObject(conf, jwtConfig.Client(context.TODO()))
-	// testGiftcardClass(conf, jwtConfig.Client(context.TODO()))
+	testGiftcardClass(conf, jwtConfig.Client(context.TODO()))
 	// testGiftcardObject(conf, jwtConfig.Client(context.TODO()))
 }
