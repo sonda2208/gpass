@@ -1,6 +1,6 @@
 package walletobject
 
-type GiftCardObject struct {
+type GiftcardObject struct {
 	CardNumber              string         `json:"cardNumber,omitempty"`
 	ClassID                 string         `json:"classId,omitempty"`
 	EventNumber             string         `json:"eventNumber,omitempty"`
@@ -13,7 +13,7 @@ type GiftCardObject struct {
 	HasUsers                bool           `json:"hasUsers,omitempty"`
 	Balance                 *Money         `json:"balance,omitempty"`
 	BalanceUpdateTime       *DateTime      `json:"balanceUpdateTime,omitempty"`
-	ClassReference          *GiftCardClass `json:"classReference,omitempty"`
+	ClassReference          *GiftcardClass `json:"classReference,omitempty"`
 	Barcode                 *Barcode       `json:"barcode,omitempty"`
 	Locations               []LatLongPoint `json:"locations,omitempty"`
 	Messages                []Message      `json:"messages,omitempty"`

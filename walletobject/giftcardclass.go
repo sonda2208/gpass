@@ -1,6 +1,6 @@
 package walletobject
 
-type GiftCardClass struct {
+type GiftcardClass struct {
 	AllowBarcodeRedemption                 bool               `json:"allowBarcodeRedemption,omitempty"`
 	AllowMultipleUsersPerObject            bool               `json:"allowMultipleUsersPerObject,omitempty"`
 	EnableSmartTap                         bool               `json:"enableSmartTap,omitempty"`
