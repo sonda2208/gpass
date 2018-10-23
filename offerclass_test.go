@@ -257,7 +257,7 @@ func TestGetOfferClass(t *testing.T) {
 	})
 
 	t.Run("Failed to get offer class", func(t *testing.T) {
-		_, err := client.Get("abc")
+		_, err := client.Get("???")
 		assert.Error(t, err)
 	})
 }
