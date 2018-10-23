@@ -12,14 +12,14 @@ const (
 	GooglePayAPIScope    = "https://www.googleapis.com/auth/wallet_object.issuer"
 )
 
-type HttpClient interface {
+type HTTPClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
 type Client struct {
 	basePath     string
 	resourcePath string
-	client       HttpClient
+	client       HTTPClient
 }
 
 type Request struct {

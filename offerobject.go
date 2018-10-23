@@ -14,7 +14,7 @@ type OfferObjectClient struct {
 	Client
 }
 
-func NewOfferObjectClient(basePath string, client HttpClient) *OfferObjectClient {
+func NewOfferObjectClient(basePath string, client HTTPClient) *OfferObjectClient {
 	return &OfferObjectClient{
 		Client: Client{
 			basePath:     basePath,

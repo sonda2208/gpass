@@ -14,7 +14,7 @@ type OfferClassClient struct {
 	Client
 }
 
-func NewOfferClassClient(basePath string, client HttpClient) *OfferClassClient {
+func NewOfferClassClient(basePath string, client HTTPClient) *OfferClassClient {
 	return &OfferClassClient{
 		Client: Client{
 			basePath:     basePath,
