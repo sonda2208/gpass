@@ -7,14 +7,14 @@ import (
 )
 
 const (
-	GiftcardObjectResourcePath = "GiftcardObject"
+	GiftcardObjectResourcePath = "giftCardObject"
 )
 
 type GiftcardObjectClient struct {
 	Client
 }
 
-func NewGiftcardObjectClient(basePath string, client HttpClient) *GiftcardObjectClient {
+func NewGiftcardObjectClient(basePath string, client HTTPClient) *GiftcardObjectClient {
 	return &GiftcardObjectClient{
 		Client: Client{
 			basePath:     basePath,

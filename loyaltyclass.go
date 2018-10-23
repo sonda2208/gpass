@@ -14,7 +14,7 @@ type LoyaltyClassClient struct {
 	Client
 }
 
-func NewLoyaltyClassClient(basePath string, client HttpClient) *LoyaltyClassClient {
+func NewLoyaltyClassClient(basePath string, client HTTPClient) *LoyaltyClassClient {
 	return &LoyaltyClassClient{
 		Client: Client{
 			basePath:     basePath,

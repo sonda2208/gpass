@@ -14,7 +14,7 @@ type GiftcardClassClient struct {
 	Client
 }
 
-func NewGiftcardClassClient(basePath string, client HttpClient) *GiftcardClassClient {
+func NewGiftcardClassClient(basePath string, client HTTPClient) *GiftcardClassClient {
 	return &GiftcardClassClient{
 		Client: Client{
 			basePath:     basePath,

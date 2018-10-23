@@ -14,7 +14,7 @@ type LoyaltyObjectClient struct {
 	Client
 }
 
-func NewLoyaltyObjectClient(basePath string, client HttpClient) *LoyaltyObjectClient {
+func NewLoyaltyObjectClient(basePath string, client HTTPClient) *LoyaltyObjectClient {
 	return &LoyaltyObjectClient{
 		Client: Client{
 			basePath:     basePath,
