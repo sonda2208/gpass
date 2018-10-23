@@ -177,6 +177,20 @@ func eventTicketClassExample(conf *AppConfig, client *http.Client) {
 	log.Println(res)
 }
 
+func eventTicketObjectExample(conf *AppConfig, client *http.Client) {
+	etClient := googlepasses.NewEventTicketObjectClient(googlepasses.GooglePayAPIBasePath, client)
+
+	res, err := etClient.Insert(&walletobject.EventTicketObject{
+		ID:      fmt.Sprintf("%s.%s.1", conf.IssuerID, conf.EventTicketObjectPrefix),
+		ClassID: fmt.Sprintf("%s.%s.1", conf.IssuerID, conf.EventTicketClassPrefix),
+		State:   "active",
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(res)
+}
+
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
@@ -192,4 +206,5 @@ func main() {
 	// giftCardClassExample(conf, jwtConfig.Client(context.TODO()))
 	// giftCardObjectExample(conf, jwtConfig.Client(context.TODO()))
 	// eventTicketClassExample(conf, jwtConfig.Client(context.TODO()))
+	// eventTicketObjectExample(conf, jwtConfig.Client(context.TODO()))
 }
