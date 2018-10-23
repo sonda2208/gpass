@@ -26,6 +26,10 @@ type AppConfig struct {
 	LoyaltyObjectPrefix      string `envconfig:"LOYALTY_OBJECT_PREFIX" required:"true"`
 	OfferClassPrefix         string `envconfig:"OFFER_CLASS_PREFIX" required:"true"`
 	OfferObjectPrefix        string `envconfig:"OFFER_OBJECT_PREFIX" required:"true"`
+	EventTicketClassPrefix   string `envconfig:"EVENT_TICKET_CLASS_PREFIX" required:"true"`
+	EventTicketObjectPrefix  string `envconfig:"EVENT_TICKET_OBJECT_PREFIX" required:"true"`
+	FlightClassPrefix        string `envconfig:"FLIGHT_CLASS_PREFIX" required:"true"`
+	FlightObjectPrefix       string `envconfig:"FLIGHT_OBJECT_PREFIX" required:"true"`
 }
 
 func loadConfig(prefixEnv string) *AppConfig {
@@ -58,7 +62,7 @@ func loadJWTConfig(keyPath string) *jwt.Config {
 	return jwtConfig
 }
 
-func testOfferClass(conf *AppConfig, client *http.Client) {
+func offerClassExample(conf *AppConfig, client *http.Client) {
 	// create offer class service
 	ocClient := googlepasses.NewOfferClassClient("", client)
 	_ = ocClient
@@ -93,7 +97,7 @@ func testOfferClass(conf *AppConfig, client *http.Client) {
 	log.Println(noc)
 }
 
-func testLoyaltyClass(conf *AppConfig, client *http.Client) {
+func loyaltyClassExample(conf *AppConfig, client *http.Client) {
 	lcClient := googlepasses.NewLoyaltyClassClient(googlepasses.GooglePayAPIBasePath, client)
 
 	// insert new loyalty class
@@ -117,7 +121,7 @@ func testLoyaltyClass(conf *AppConfig, client *http.Client) {
 	log.Println(nlc)
 }
 
-func testLoyaltyObject(conf *AppConfig, client *http.Client) {
+func loyaltyObjectExample(conf *AppConfig, client *http.Client) {
 	loClient := googlepasses.NewLoyaltyObjectClient(googlepasses.GooglePayAPIBasePath, client)
 
 	// insert new loyalty object
@@ -133,7 +137,7 @@ func testLoyaltyObject(conf *AppConfig, client *http.Client) {
 	log.Println(nlo)
 }
 
-func testGiftcardClass(conf *AppConfig, client *http.Client) {
+func giftCardClassExample(conf *AppConfig, client *http.Client) {
 	gcClient := googlepasses.NewGiftcardClassClient(googlepasses.GooglePayAPIBasePath, client)
 
 	res, err := gcClient.List(conf.IssuerID, 0, "")
@@ -143,7 +147,7 @@ func testGiftcardClass(conf *AppConfig, client *http.Client) {
 	log.Println(res.Resources[0])
 }
 
-func testGiftcardObject(conf *AppConfig, client *http.Client) {
+func giftCardObjectExample(conf *AppConfig, client *http.Client) {
 	gcClient := googlepasses.NewGiftcardObjectClient(googlepasses.GooglePayAPIBasePath, client)
 
 	res, err := gcClient.List(fmt.Sprintf("%s.%s.1", conf.IssuerID, conf.GiftCardClassPrefix), 0, "")
@@ -151,6 +155,26 @@ func testGiftcardObject(conf *AppConfig, client *http.Client) {
 		log.Fatal(err)
 	}
 	log.Println(res.Resources[0])
+}
+
+func eventTicketClassExample(conf *AppConfig, client *http.Client) {
+	etClient := googlepasses.NewEventTicketClassClient(googlepasses.GooglePayAPIBasePath, client)
+
+	res, err := etClient.Insert(&walletobject.EventTicketClass{
+		ID:           fmt.Sprintf("%s.%s.1", conf.IssuerID, conf.EventTicketClassPrefix),
+		IssuerName:   "thecoffeeshop",
+		ReviewStatus: "underReview",
+		EventName: &walletobject.LocalizedString{
+			DefaultValue: &walletobject.TranslatedString{
+				Language: "en-US",
+				Value:    "Grand Opening",
+			},
+		},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(res)
 }
 
 func main() {
@@ -162,9 +186,10 @@ func main() {
 	tk, _ := jwtConfig.TokenSource(context.TODO()).Token()
 	log.Println(tk.AccessToken)
 
-	// testOfferClass(conf, jwtConfig.Client(context.TODO()))
-	// testLoyaltyClass(conf, jwtConfig.Client(context.TODO()))
-	// testLoyaltyObject(conf, jwtConfig.Client(context.TODO()))
-	// testGiftcardClass(conf, jwtConfig.Client(context.TODO()))
-	// testGiftcardObject(conf, jwtConfig.Client(context.TODO()))
+	// offerClassExample(conf, jwtConfig.Client(context.TODO()))
+	// loyaltyClassExample(conf, jwtConfig.Client(context.TODO()))
+	// loyaltyObjectExample(conf, jwtConfig.Client(context.TODO()))
+	// giftCardClassExample(conf, jwtConfig.Client(context.TODO()))
+	// giftCardObjectExample(conf, jwtConfig.Client(context.TODO()))
+	// eventTicketClassExample(conf, jwtConfig.Client(context.TODO()))
 }
