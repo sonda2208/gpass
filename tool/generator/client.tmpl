@@ -14,7 +14,7 @@ type {{.CapitalizeClientName}}Client struct {
 	Client
 }
 
-func New{{.CapitalizeClientName}}Client(basePath string, client HttpClient) *{{.CapitalizeClientName}}Client {
+func New{{.CapitalizeClientName}}Client(basePath string, client HTTPClient) *{{.CapitalizeClientName}}Client {
 	return &{{.CapitalizeClientName}}Client{
 		Client: Client{
 			basePath:     basePath,

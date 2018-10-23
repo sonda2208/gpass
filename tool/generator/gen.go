@@ -12,8 +12,8 @@ import (
 
 type Config struct {
 	ClientName         string `envconfig:"OBJECT_NAME" required:"true"`
-	TemplateFilePath   string
-	RequiredFields     string `envconfig:"REQUIRED_FIELDS" required:"true"`
+	TemplateFilePath   string `envconfig:"TEMPLATE_FILE" required:"true"`
+	RequiredFields     string
 	SampleID           string
 	SampleDataPath     string
 	SampleListDataPath string
