@@ -165,6 +165,6 @@ func main() {
 	// testOfferClass(conf, jwtConfig.Client(context.TODO()))
 	// testLoyaltyClass(conf, jwtConfig.Client(context.TODO()))
 	// testLoyaltyObject(conf, jwtConfig.Client(context.TODO()))
-	testGiftcardClass(conf, jwtConfig.Client(context.TODO()))
+	// testGiftcardClass(conf, jwtConfig.Client(context.TODO()))
 	// testGiftcardObject(conf, jwtConfig.Client(context.TODO()))
 }
