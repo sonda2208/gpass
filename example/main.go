@@ -191,6 +191,41 @@ func eventTicketObjectExample(conf *AppConfig, client *http.Client) {
 	log.Println(res)
 }
 
+func flightClassExample(conf *AppConfig, client *http.Client) {
+	fcClient := googlepasses.NewFlightClassClient(googlepasses.GooglePayAPIBasePath, client)
+
+	res, err := fcClient.Insert(&walletobject.FlightClass{
+		ID:                              fmt.Sprintf("%s.%s.1", conf.IssuerID, conf.FlightClassPrefix),
+		IssuerName:                      "FancyAirline",
+		LocalScheduledDepartureDateTime: "2027-03-05T06:30:00",
+		ReviewStatus:                    "underReview",
+		Origin: &walletobject.AirportInfo{
+			AirportIataCode: "SGN",
+			Terminal:        "TSN",
+		},
+		Destination: &walletobject.AirportInfo{
+			AirportIataCode: "HAN",
+			Terminal:        "NB",
+		},
+		FlightHeader: &walletobject.FlightHeader{
+			Carrier: &walletobject.FlightCarrier{
+				CarrierIataCode: "LX",
+				AirlineLogo: &walletobject.Image{
+					SourceURI: &walletobject.URI{
+						URI: "https://cdn.logojoy.com/wp-content/uploads/2018/05/30142202/1_big-768x591.jpg",
+					},
+				},
+			},
+			FlightNumber:          "113",
+			OperatingFlightNumber: "113",
+		},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(res)
+}
+
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
@@ -207,4 +242,5 @@ func main() {
 	// giftCardObjectExample(conf, jwtConfig.Client(context.TODO()))
 	// eventTicketClassExample(conf, jwtConfig.Client(context.TODO()))
 	// eventTicketObjectExample(conf, jwtConfig.Client(context.TODO()))
+	flightClassExample(conf, jwtConfig.Client(context.TODO()))
 }
