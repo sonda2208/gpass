@@ -226,6 +226,24 @@ func flightClassExample(conf *AppConfig, client *http.Client) {
 	log.Println(res)
 }
 
+func flightObjectExample(conf *AppConfig, client *http.Client) {
+	foClient := googlepasses.NewFlightObjectClient(googlepasses.GooglePayAPIBasePath, client)
+
+	res, err := foClient.Insert(&walletobject.FlightObject{
+		ID:            fmt.Sprintf("%s.%s.1", conf.IssuerID, conf.FlightObjectPrefix),
+		ClassID:       fmt.Sprintf("%s.%s.1", conf.IssuerID, conf.FlightClassPrefix),
+		State:         "active",
+		PassengerName: "Charles Xavier",
+		ReservationInfo: &walletobject.ReservationInfo{
+			ConfirmationCode: "xmen",
+		},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(res)
+}
+
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
@@ -242,5 +260,6 @@ func main() {
 	// giftCardObjectExample(conf, jwtConfig.Client(context.TODO()))
 	// eventTicketClassExample(conf, jwtConfig.Client(context.TODO()))
 	// eventTicketObjectExample(conf, jwtConfig.Client(context.TODO()))
-	flightClassExample(conf, jwtConfig.Client(context.TODO()))
+	// flightClassExample(conf, jwtConfig.Client(context.TODO()))
+	// flightObjectExample(conf, jwtConfig.Client(context.TODO()))
 }
