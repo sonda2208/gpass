@@ -63,8 +63,8 @@ func loadJWTConfig(keyPath string) *jwt.Config {
 }
 
 func offerClassExample(conf *AppConfig, client *http.Client) {
-	// create offer class service
-	ocClient := googlepasses.NewOfferClassClient("", client)
+	// create offer class client
+	ocClient := googlepasses.NewOfferClassClient(googlepasses.GooglePayAPIBasePath, client)
 	_ = ocClient
 
 	// list offer classes
