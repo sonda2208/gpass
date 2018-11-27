@@ -108,5 +108,5 @@ func (r *Response) DecodeResponse(target interface{}) error {
 	}
 
 	return json.NewDecoder(r.res.Body).Decode(target)
-	// hello world
+	// hello kitty
 }
