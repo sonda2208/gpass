@@ -101,18 +101,21 @@ func (oo *OfferObject) AddMessage(ctx context.Context, amr *AddMessageRequest) e
 type OfferObjectMetadata struct {
 	State     string
 	Locations []*LatLongPoint
+	Barcode   *Barcode
 }
 
 func (oom *OfferObjectMetadata) toWO() (*walletobjects.OfferObject, error) {
 	o := &walletobjects.OfferObject{
-		State: oom.State,
+		State:   oom.State,
+		Barcode: oom.Barcode.toWO(),
 	}
 	return o, nil
 }
 
 func woToOfferObjectMeta(oo *walletobjects.OfferObject) (*OfferObjectMetadata, error) {
 	oom := &OfferObjectMetadata{
-		State: oo.State,
+		State:   oo.State,
+		Barcode: wotoBarcode(oo.Barcode),
 	}
 
 	oom.Locations = make([]*LatLongPoint, len(oo.Locations))
@@ -126,12 +129,14 @@ func woToOfferObjectMeta(oo *walletobjects.OfferObject) (*OfferObjectMetadata, e
 type OfferObjectMetadataToUpdate struct {
 	State     string
 	Locations []*LatLongPoint
+	Barcode   *Barcode
 }
 
 func (oom *OfferObjectMetadataToUpdate) toWO() (*walletobjects.OfferObject, error) {
 	o := &walletobjects.OfferObject{
 		State:     oom.State,
 		Locations: locationListToWO(oom.Locations),
+		Barcode:   oom.Barcode.toWO(),
 	}
 	return o, nil
 }

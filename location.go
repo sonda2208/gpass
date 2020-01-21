@@ -9,7 +9,6 @@ type LatLongPoint struct {
 
 func (llp *LatLongPoint) toWO() *walletobjects.LatLongPoint {
 	return &walletobjects.LatLongPoint{
-		Kind:      "walletobjects#latLongPoint",
 		Latitude:  llp.Latitude,
 		Longitude: llp.Longitude,
 	}
