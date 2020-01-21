@@ -1,137 +1,137 @@
-package googlepasses
+package gpass
 
 import (
-	"strconv"
+	"context"
 
-	"github.com/sonda2208/googlepasses-go-client/walletobject"
+	"github.com/sonda2208/gpass/walletobjects"
 )
 
-const (
-	OfferClassResourcePath = "offerClass"
-)
-
-type OfferClassClient struct {
-	Client
+type OfferClass struct {
+	IssuerID     int64
+	OfferClassID string
+	c            *Client
 }
 
-func NewOfferClassClient(basePath string, client HTTPClient) *OfferClassClient {
-	return &OfferClassClient{
-		Client: Client{
-			basePath:     basePath,
-			client:       client,
-			resourcePath: OfferClassResourcePath,
-		},
+func (iss *Issuer) OfferClass(id string) *OfferClass {
+	return &OfferClass{
+		c:            iss.c,
+		IssuerID:     iss.IssuerID,
+		OfferClassID: id,
 	}
 }
 
-func (c *OfferClassClient) AddMessage(id string, m *walletobject.MessagePayload) (*walletobject.OfferClass, error) {
-	o := &walletobject.OfferClass{}
-	req := &Request{
-		method:      "POST",
-		url:         "/" + OfferClassResourcePath + "/" + id + "/addMessage",
-		queryParams: nil,
-		payload:     m,
-		service:     &c.Client,
-	}
-
-	if err := req.Do().DecodeResponse(o); err != nil {
+func (iss *Issuer) OfferClasses(ctx context.Context) ([]*OfferClass, error) {
+	res, err := iss.c.wos.Offerclass.List().IssuerId(iss.IssuerID).Context(ctx).Do()
+	if err != nil {
 		return nil, err
 	}
 
+	classes := make([]*OfferClass, len(res.Resources))
+	for i, oc := range res.Resources {
+		classes[i] = toOfferClass(oc, iss.c)
+		classes[i].IssuerID = iss.IssuerID
+	}
+
+	return classes, nil
+}
+
+func toOfferClass(oc *walletobjects.OfferClass, c *Client) *OfferClass {
+	return &OfferClass{
+		OfferClassID: oc.Id,
+		c:            c,
+	}
+}
+
+func (oc *OfferClass) Create(ctx context.Context, ocm *OfferClassMetadata) error {
+	o, err := ocm.toWO()
+	if err != nil {
+		return err
+	}
+
+	o.Id = oc.OfferClassID
+	_, err = oc.c.wos.Offerclass.Insert(o).Context(ctx).Do()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (oc *OfferClass) Metadata(ctx context.Context) (*OfferClassMetadata, error) {
+	o, err := oc.c.wos.Offerclass.Get(oc.OfferClassID).Context(ctx).Do()
+	if err != nil {
+		return nil, err
+	}
+
+	meta, err := woToOfferClassMeta(o)
+	if err != nil {
+		return nil, err
+	}
+
+	return meta, nil
+}
+
+func (oc *OfferClass) Update(ctx context.Context, ocm *OfferClassMetadataToUpdate) (*OfferClassMetadata, error) {
+	o, err := ocm.toWO()
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := oc.c.wos.Offerclass.Patch(oc.OfferClassID, o).Context(ctx).Do()
+	if err != nil {
+		return nil, err
+	}
+
+	return woToOfferClassMeta(res)
+}
+
+func (oc *OfferClass) AddMessage(ctx context.Context, amr *AddMessageRequest) error {
+	_, err := oc.c.wos.Offerclass.Addmessage(oc.OfferClassID, amr.toWO()).Context(ctx).Do()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+type OfferClassMetadata struct {
+	IssuerName        string
+	Provider          string
+	RedemptionChannel string
+	ReviewStatus      string
+	Title             string
+}
+
+func (ocm *OfferClassMetadata) toWO() (*walletobjects.OfferClass, error) {
+	return &walletobjects.OfferClass{
+		IssuerName:        ocm.IssuerName,
+		Provider:          ocm.Provider,
+		RedemptionChannel: ocm.RedemptionChannel,
+		ReviewStatus:      ocm.ReviewStatus,
+		Title:             ocm.Title,
+	}, nil
+}
+
+func woToOfferClassMeta(o *walletobjects.OfferClass) (*OfferClassMetadata, error) {
+	ocm := &OfferClassMetadata{
+		IssuerName:        o.IssuerName,
+		Provider:          o.Provider,
+		RedemptionChannel: o.RedemptionChannel,
+		ReviewStatus:      o.ReviewStatus,
+		Title:             o.Title,
+	}
+	return ocm, nil
+}
+
+type OfferClassMetadataToUpdate struct {
+	ReviewStatus string
+	Title        string
+}
+
+func (ocm *OfferClassMetadataToUpdate) toWO() (*walletobjects.OfferClass, error) {
+	o := &walletobjects.OfferClass{
+		ReviewStatus: ocm.ReviewStatus,
+		Title:        ocm.Title,
+	}
 	return o, nil
-}
-
-func (c *OfferClassClient) Get(id string) (*walletobject.OfferClass, error) {
-	o := &walletobject.OfferClass{}
-	req := &Request{
-		method:      "GET",
-		url:         "/" + OfferClassResourcePath + "/" + id,
-		queryParams: nil,
-		payload:     nil,
-		service:     &c.Client,
-	}
-
-	if err := req.Do().DecodeResponse(o); err != nil {
-		return nil, err
-	}
-
-	return o, nil
-}
-
-func (c *OfferClassClient) List(issuerID string, maxResults int, paginationToken string) (*walletobject.ListQueryResponse, error) {
-	r := &walletobject.ListQueryResponse{}
-	req := &Request{
-		method:      "GET",
-		url:         "/" + OfferClassResourcePath,
-		queryParams: &QueryParams{},
-		payload:     nil,
-		service:     &c.Client,
-	}
-
-	req.queryParams.Set("issuerId", issuerID)
-
-	if maxResults > 0 {
-		req.queryParams.Set("maxResults", strconv.Itoa(maxResults))
-	}
-
-	if paginationToken != "" {
-		req.queryParams.Set("token", paginationToken)
-	}
-
-	if err := req.Do().DecodeResponse(r); err != nil {
-		return nil, err
-	}
-
-	return r, nil
-}
-
-func (c *OfferClassClient) Insert(o *walletobject.OfferClass) (*walletobject.OfferClass, error) {
-	no := &walletobject.OfferClass{}
-	req := &Request{
-		method:      "POST",
-		url:         "/" + OfferClassResourcePath,
-		queryParams: nil,
-		payload:     o,
-		service:     &c.Client,
-	}
-
-	if err := req.Do().DecodeResponse(no); err != nil {
-		return nil, err
-	}
-
-	return no, nil
-}
-
-func (c *OfferClassClient) Patch(id string, i interface{}) (*walletobject.OfferClass, error) {
-	o := &walletobject.OfferClass{}
-	req := &Request{
-		method:      "PATCH",
-		url:         "/" + OfferClassResourcePath + "/" + id,
-		queryParams: nil,
-		payload:     i,
-		service:     &c.Client,
-	}
-
-	if err := req.Do().DecodeResponse(o); err != nil {
-		return nil, err
-	}
-
-	return o, nil
-}
-
-func (c *OfferClassClient) Update(id string, o *walletobject.OfferClass) (*walletobject.OfferClass, error) {
-	no := &walletobject.OfferClass{}
-	req := &Request{
-		method:      "PUT",
-		url:         "/" + OfferClassResourcePath + "/" + id,
-		queryParams: nil,
-		payload:     o,
-		service:     &c.Client,
-	}
-
-	if err := req.Do().DecodeResponse(no); err != nil {
-		return nil, err
-	}
-
-	return no, nil
 }

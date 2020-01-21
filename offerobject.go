@@ -1,137 +1,142 @@
-package googlepasses
+package gpass
 
 import (
-	"strconv"
+	"context"
 
-	"github.com/sonda2208/googlepasses-go-client/walletobject"
+	"github.com/sonda2208/gpass/walletobjects"
 )
 
-const (
-	OfferObjectResourcePath = "offerObject"
-)
-
-type OfferObjectClient struct {
-	Client
+type OfferObject struct {
+	IssuerID      int64
+	OfferClassID  string
+	OfferObjectID string
+	c             *Client
 }
 
-func NewOfferObjectClient(basePath string, client HTTPClient) *OfferObjectClient {
-	return &OfferObjectClient{
-		Client: Client{
-			basePath:     basePath,
-			client:       client,
-			resourcePath: OfferObjectResourcePath,
-		},
+func (oc *OfferClass) OfferObject(id string) *OfferObject {
+	return &OfferObject{
+		IssuerID:      oc.IssuerID,
+		OfferClassID:  oc.OfferClassID,
+		OfferObjectID: id,
+		c:             oc.c,
 	}
 }
 
-func (c *OfferObjectClient) AddMessage(id string, m *walletobject.MessagePayload) (*walletobject.OfferObject, error) {
-	o := &walletobject.OfferObject{}
-	req := &Request{
-		method:      "POST",
-		url:         "/" + OfferObjectResourcePath + "/" + id + "/addMessage",
-		queryParams: nil,
-		payload:     m,
-		service:     &c.Client,
-	}
-
-	if err := req.Do().DecodeResponse(o); err != nil {
+func (oc *OfferClass) OfferObjects(ctx context.Context) ([]*OfferObject, error) {
+	res, err := oc.c.wos.Offerobject.List().ClassId(oc.OfferClassID).Context(ctx).Do()
+	if err != nil {
 		return nil, err
 	}
 
+	objects := make([]*OfferObject, len(res.Resources))
+	for i, oo := range res.Resources {
+		objects[i] = toOfferObject(oo, oc.c)
+		objects[i].IssuerID = oc.IssuerID
+	}
+
+	return objects, nil
+}
+
+func toOfferObject(oo *walletobjects.OfferObject, c *Client) *OfferObject {
+	return &OfferObject{
+		OfferClassID:  oo.ClassId,
+		OfferObjectID: oo.Id,
+		c:             c,
+	}
+}
+
+func (oo *OfferObject) Create(ctx context.Context, oom *OfferObjectMetadata) error {
+	o, err := oom.toWO()
+	if err != nil {
+		return err
+	}
+
+	o.ClassId = oo.OfferClassID
+	o.Id = oo.OfferObjectID
+	_, err = oo.c.wos.Offerobject.Insert(o).Context(ctx).Do()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (oo *OfferObject) Metadata(ctx context.Context) (*OfferObjectMetadata, error) {
+	o, err := oo.c.wos.Offerobject.Get(oo.OfferObjectID).Context(ctx).Do()
+	if err != nil {
+		return nil, err
+	}
+
+	meta, err := woToOfferObjectMeta(o)
+	if err != nil {
+		return nil, err
+	}
+
+	return meta, nil
+}
+
+func (oo *OfferObject) Update(ctx context.Context, oom *OfferObjectMetadataToUpdate) (*OfferObjectMetadata, error) {
+	o, err := oom.toWO()
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := oo.c.wos.Offerobject.Patch(oo.OfferObjectID, o).Context(ctx).Do()
+	if err != nil {
+		return nil, err
+	}
+
+	return woToOfferObjectMeta(res)
+}
+
+func (oo *OfferObject) AddMessage(ctx context.Context, amr *AddMessageRequest) error {
+	_, err := oo.c.wos.Offerobject.Addmessage(oo.OfferObjectID, amr.toWO()).Context(ctx).Do()
+	if err != nil {
+		return nil
+	}
+
+	return nil
+}
+
+type OfferObjectMetadata struct {
+	State     string
+	Locations []*LatLongPoint
+	Barcode   *Barcode
+}
+
+func (oom *OfferObjectMetadata) toWO() (*walletobjects.OfferObject, error) {
+	o := &walletobjects.OfferObject{
+		State:   oom.State,
+		Barcode: oom.Barcode.toWO(),
+	}
 	return o, nil
 }
 
-func (c *OfferObjectClient) Get(id string) (*walletobject.OfferObject, error) {
-	o := &walletobject.OfferObject{}
-	req := &Request{
-		method:      "GET",
-		url:         "/" + OfferObjectResourcePath + "/" + id,
-		queryParams: nil,
-		payload:     nil,
-		service:     &c.Client,
+func woToOfferObjectMeta(oo *walletobjects.OfferObject) (*OfferObjectMetadata, error) {
+	oom := &OfferObjectMetadata{
+		State:   oo.State,
+		Barcode: wotoBarcode(oo.Barcode),
 	}
 
-	if err := req.Do().DecodeResponse(o); err != nil {
-		return nil, err
+	oom.Locations = make([]*LatLongPoint, len(oo.Locations))
+	for i, l := range oo.Locations {
+		oom.Locations[i] = woToLatLongPoint(l)
 	}
 
+	return oom, nil
+}
+
+type OfferObjectMetadataToUpdate struct {
+	State     string
+	Locations []*LatLongPoint
+	Barcode   *Barcode
+}
+
+func (oom *OfferObjectMetadataToUpdate) toWO() (*walletobjects.OfferObject, error) {
+	o := &walletobjects.OfferObject{
+		State:     oom.State,
+		Locations: locationListToWO(oom.Locations),
+		Barcode:   oom.Barcode.toWO(),
+	}
 	return o, nil
-}
-
-func (c *OfferObjectClient) List(classID string, maxResults int, paginationToken string) (*walletobject.ListQueryResponse, error) {
-	r := &walletobject.ListQueryResponse{}
-	req := &Request{
-		method:      "GET",
-		url:         "/" + OfferObjectResourcePath,
-		queryParams: &QueryParams{},
-		payload:     nil,
-		service:     &c.Client,
-	}
-
-	req.queryParams.Set("classId", classID)
-
-	if maxResults > 0 {
-		req.queryParams.Set("maxResults", strconv.Itoa(maxResults))
-	}
-
-	if paginationToken != "" {
-		req.queryParams.Set("token", paginationToken)
-	}
-
-	if err := req.Do().DecodeResponse(r); err != nil {
-		return nil, err
-	}
-
-	return r, nil
-}
-
-func (c *OfferObjectClient) Insert(o *walletobject.OfferObject) (*walletobject.OfferObject, error) {
-	no := &walletobject.OfferObject{}
-	req := &Request{
-		method:      "POST",
-		url:         "/" + OfferObjectResourcePath,
-		queryParams: nil,
-		payload:     o,
-		service:     &c.Client,
-	}
-
-	if err := req.Do().DecodeResponse(no); err != nil {
-		return nil, err
-	}
-
-	return no, nil
-}
-
-func (c *OfferObjectClient) Patch(id string, i interface{}) (*walletobject.OfferObject, error) {
-	o := &walletobject.OfferObject{}
-	req := &Request{
-		method:      "PATCH",
-		url:         "/" + OfferObjectResourcePath + "/" + id,
-		queryParams: nil,
-		payload:     i,
-		service:     &c.Client,
-	}
-
-	if err := req.Do().DecodeResponse(o); err != nil {
-		return nil, err
-	}
-
-	return o, nil
-}
-
-func (c *OfferObjectClient) Update(id string, o *walletobject.OfferObject) (*walletobject.OfferObject, error) {
-	no := &walletobject.OfferObject{}
-	req := &Request{
-		method:      "PUT",
-		url:         "/" + OfferObjectResourcePath + "/" + id,
-		queryParams: nil,
-		payload:     o,
-		service:     &c.Client,
-	}
-
-	if err := req.Do().DecodeResponse(no); err != nil {
-		return nil, err
-	}
-
-	return no, nil
 }
