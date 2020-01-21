@@ -95,43 +95,62 @@ func (oc *OfferClass) AddMessage(ctx context.Context, amr *AddMessageRequest) er
 }
 
 type OfferClassMetadata struct {
-	IssuerName        string
-	Provider          string
-	RedemptionChannel string
-	ReviewStatus      string
-	Title             string
+	IssuerName          string
+	Provider            string
+	RedemptionChannel   string
+	ReviewStatus        string
+	ShortTitle          string
+	Title               string
+	LocalizedShortTitle *LocalizedString
+	LocalizedTitle      *LocalizedString
 }
 
 func (ocm *OfferClassMetadata) toWO() (*walletobjects.OfferClass, error) {
+	if ocm == nil {
+		return nil, nil
+	}
+
 	return &walletobjects.OfferClass{
-		IssuerName:        ocm.IssuerName,
-		Provider:          ocm.Provider,
-		RedemptionChannel: ocm.RedemptionChannel,
-		ReviewStatus:      ocm.ReviewStatus,
-		Title:             ocm.Title,
+		IssuerName:          ocm.IssuerName,
+		Provider:            ocm.Provider,
+		RedemptionChannel:   ocm.RedemptionChannel,
+		ReviewStatus:        ocm.ReviewStatus,
+		Title:               ocm.Title,
+		ShortTitle:          ocm.ShortTitle,
+		LocalizedShortTitle: ocm.LocalizedShortTitle.toWO(),
+		LocalizedTitle:      ocm.LocalizedTitle.toWO(),
 	}, nil
 }
 
 func woToOfferClassMeta(o *walletobjects.OfferClass) (*OfferClassMetadata, error) {
 	ocm := &OfferClassMetadata{
-		IssuerName:        o.IssuerName,
-		Provider:          o.Provider,
-		RedemptionChannel: o.RedemptionChannel,
-		ReviewStatus:      o.ReviewStatus,
-		Title:             o.Title,
+		IssuerName:          o.IssuerName,
+		Provider:            o.Provider,
+		RedemptionChannel:   o.RedemptionChannel,
+		ReviewStatus:        o.ReviewStatus,
+		Title:               o.Title,
+		ShortTitle:          o.ShortTitle,
+		LocalizedShortTitle: woToLocalizedString(o.LocalizedShortTitle),
+		LocalizedTitle:      woToLocalizedString(o.LocalizedTitle),
 	}
 	return ocm, nil
 }
 
 type OfferClassMetadataToUpdate struct {
-	ReviewStatus string
-	Title        string
+	ReviewStatus        string
+	Title               string
+	ShortTitle          string
+	LocalizedShortTitle *LocalizedString
+	LocalizedTitle      *LocalizedString
 }
 
 func (ocm *OfferClassMetadataToUpdate) toWO() (*walletobjects.OfferClass, error) {
 	o := &walletobjects.OfferClass{
-		ReviewStatus: ocm.ReviewStatus,
-		Title:        ocm.Title,
+		ReviewStatus:        ocm.ReviewStatus,
+		Title:               ocm.Title,
+		ShortTitle:          ocm.ShortTitle,
+		LocalizedShortTitle: ocm.LocalizedShortTitle.toWO(),
+		LocalizedTitle:      ocm.LocalizedTitle.toWO(),
 	}
 	return o, nil
 }
