@@ -3,17 +3,17 @@ package gpass
 import "github.com/sonda2208/gpass/walletobjects"
 
 type URI struct {
-	Description string
-	ID          string
-	URI         string
+	ID                   string
+	URI                  string
+	LocalizedDescription *LocalizedString
 }
 
 func (u *URI) toWO() *walletobjects.Uri {
 	return &walletobjects.Uri{
-		Description: u.Description,
-		Id:          u.ID,
-		Kind:        "walletobjects#uri",
-		Uri:         u.URI,
+		Id:                   u.ID,
+		Kind:                 "walletobjects#uri",
+		Uri:                  u.URI,
+		LocalizedDescription: u.LocalizedDescription.toWO(),
 	}
 }
 
@@ -28,27 +28,27 @@ func listURIToWO(uris []*URI) []*walletobjects.Uri {
 
 func woToUri(u *walletobjects.Uri) *URI {
 	return &URI{
-		Description: u.Description,
-		ID:          u.Id,
-		URI:         u.Uri,
+		ID:                   u.Id,
+		URI:                  u.Uri,
+		LocalizedDescription: woToLocalizedString(u.LocalizedDescription),
 	}
 }
 
 type ImageUri struct {
-	Description string
-	URI         string
+	LocalizedDescription *LocalizedString
+	URI                  string
 }
 
 func (iu *ImageUri) toWO() *walletobjects.ImageUri {
 	return &walletobjects.ImageUri{
-		Description: iu.Description,
-		Uri:         iu.URI,
+		Uri:                  iu.URI,
+		LocalizedDescription: iu.LocalizedDescription.toWO(),
 	}
 }
 
 func woToImageUri(u *walletobjects.ImageUri) *ImageUri {
 	return &ImageUri{
-		Description: u.Description,
-		URI:         u.Uri,
+		URI:                  u.Uri,
+		LocalizedDescription: woToLocalizedString(u.LocalizedDescription),
 	}
 }
