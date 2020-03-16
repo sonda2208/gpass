@@ -21,10 +21,10 @@ func (ls *LocalizedString) toWO() *walletobjects.LocalizedString {
 
 func woToLocalizedString(s *walletobjects.LocalizedString) *LocalizedString {
 	res := &LocalizedString{
-		DefaultValue: woToTranslatedString(s.DefaultValue),
+		DefaultValue:     woToTranslatedString(s.DefaultValue),
+		TranslatedValues: make([]*TranslatedString, len(s.TranslatedValues)),
 	}
 
-	res.TranslatedValues = make([]*TranslatedString, len(s.TranslatedValues))
 	for i, s := range s.TranslatedValues {
 		res.TranslatedValues[i] = woToTranslatedString(s)
 	}

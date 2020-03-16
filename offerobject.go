@@ -99,44 +99,59 @@ func (oo *OfferObject) AddMessage(ctx context.Context, amr *AddMessageRequest) e
 }
 
 type OfferObjectMetadata struct {
-	State     string
-	Locations []*LatLongPoint
-	Barcode   *Barcode
+	State           string
+	Locations       []*LatLongPoint
+	Barcode         *Barcode
+	LinksModuleData *LinksModuleData
+	TextModulesData []*TextModuleData
 }
 
 func (oom *OfferObjectMetadata) toWO() (*walletobjects.OfferObject, error) {
 	o := &walletobjects.OfferObject{
-		State:   oom.State,
-		Barcode: oom.Barcode.toWO(),
+		State:           oom.State,
+		Locations:       locationListToWO(oom.Locations),
+		Barcode:         oom.Barcode.toWO(),
+		LinksModuleData: oom.LinksModuleData.toWO(),
+		TextModulesData: listTextModuleDataToWO(oom.TextModulesData),
 	}
 	return o, nil
 }
 
 func woToOfferObjectMeta(oo *walletobjects.OfferObject) (*OfferObjectMetadata, error) {
 	oom := &OfferObjectMetadata{
-		State:   oo.State,
-		Barcode: wotoBarcode(oo.Barcode),
+		State:           oo.State,
+		Locations:       make([]*LatLongPoint, len(oo.Locations)),
+		Barcode:         wotoBarcode(oo.Barcode),
+		LinksModuleData: woToLinksModuleData(oo.LinksModuleData),
+		TextModulesData: make([]*TextModuleData, len(oo.TextModulesData)),
 	}
 
-	oom.Locations = make([]*LatLongPoint, len(oo.Locations))
 	for i, l := range oo.Locations {
 		oom.Locations[i] = woToLatLongPoint(l)
+	}
+
+	for i, d := range oo.TextModulesData {
+		oom.TextModulesData[i] = woToTextModuleData(d)
 	}
 
 	return oom, nil
 }
 
 type OfferObjectMetadataToUpdate struct {
-	State     string
-	Locations []*LatLongPoint
-	Barcode   *Barcode
+	State           string
+	Locations       []*LatLongPoint
+	Barcode         *Barcode
+	LinksModuleData *LinksModuleData
+	TextModulesData []*TextModuleData
 }
 
 func (oom *OfferObjectMetadataToUpdate) toWO() (*walletobjects.OfferObject, error) {
 	o := &walletobjects.OfferObject{
-		State:     oom.State,
-		Locations: locationListToWO(oom.Locations),
-		Barcode:   oom.Barcode.toWO(),
+		State:           oom.State,
+		Locations:       locationListToWO(oom.Locations),
+		Barcode:         oom.Barcode.toWO(),
+		LinksModuleData: oom.LinksModuleData.toWO(),
+		TextModulesData: listTextModuleDataToWO(oom.TextModulesData),
 	}
 	return o, nil
 }
