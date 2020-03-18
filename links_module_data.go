@@ -17,6 +17,10 @@ func (d *LinksModuleData) toWO() *walletobjects.LinksModuleData {
 }
 
 func woToLinksModuleData(d *walletobjects.LinksModuleData) *LinksModuleData {
+	if d == nil {
+		return nil
+	}
+
 	res := &LinksModuleData{
 		URIs: make([]*URI, len(d.Uris)),
 	}

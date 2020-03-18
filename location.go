@@ -24,6 +24,10 @@ func locationListToWO(ll []*LatLongPoint) []*walletobjects.LatLongPoint {
 }
 
 func woToLatLongPoint(llp *walletobjects.LatLongPoint) *LatLongPoint {
+	if llp == nil {
+		return nil
+	}
+
 	return &LatLongPoint{
 		Latitude:  llp.Latitude,
 		Longitude: llp.Longitude,

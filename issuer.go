@@ -2,12 +2,14 @@ package gpass
 
 import (
 	"context"
+	"errors"
+
 	"github.com/sonda2208/gpass/walletobjects"
 )
 
 type Issuer struct {
 	IssuerID int64
-	c *Client
+	c        *Client
 }
 
 func (c *Client) Issuer(id int64) *Issuer {
@@ -27,7 +29,7 @@ func (c *Client) Issuers(ctx context.Context) ([]*Issuer, error) {
 	for i, iss := range res.Resources {
 		issuers[i] = toIssuer(iss, c)
 	}
-	
+
 	return issuers, nil
 }
 
@@ -58,9 +60,9 @@ func (iss *Issuer) Metadata(ctx context.Context) (*IssuerMetadata, error) {
 		return nil, err
 	}
 
-	meta, err := woToIssuerMetadata(i)
-	if err != nil {
-		return nil, err
+	meta := woToIssuerMetadata(i)
+	if meta == nil {
+		return nil, errors.New("invalid metadata")
 	}
 
 	return meta, nil
@@ -69,7 +71,7 @@ func (iss *Issuer) Metadata(ctx context.Context) (*IssuerMetadata, error) {
 type IssuerMetadata struct {
 	ContactInfo *IssuerContactInfo
 	HomepageURL string
-	Name string
+	Name        string
 }
 
 func (im *IssuerMetadata) toWO() (*walletobjects.Issuer, error) {
@@ -84,20 +86,24 @@ func (im *IssuerMetadata) toWO() (*walletobjects.Issuer, error) {
 	return i, nil
 }
 
-func woToIssuerMetadata(i *walletobjects.Issuer) (*IssuerMetadata, error ) {
+func woToIssuerMetadata(i *walletobjects.Issuer) *IssuerMetadata {
+	if i == nil {
+		return nil
+	}
+
 	meta := &IssuerMetadata{
 		ContactInfo: woToIssuerContactInfo(i.ContactInfo),
 		HomepageURL: i.HomepageUrl,
 		Name:        i.Name,
 	}
-	return meta, nil
+	return meta
 }
 
 type IssuerContactInfo struct {
 	AlertsEmails []string
-	Email string
-	Name string
-	Phone string
+	Email        string
+	Name         string
+	Phone        string
 }
 
 func (ici *IssuerContactInfo) toWO() *walletobjects.IssuerContactInfo {
@@ -114,6 +120,10 @@ func (ici *IssuerContactInfo) toWO() *walletobjects.IssuerContactInfo {
 }
 
 func woToIssuerContactInfo(i *walletobjects.IssuerContactInfo) *IssuerContactInfo {
+	if i == nil {
+		return nil
+	}
+
 	return &IssuerContactInfo{
 		AlertsEmails: i.AlertsEmails,
 		Email:        i.Email,

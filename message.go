@@ -17,6 +17,10 @@ func (m *Message) toWO() *walletobjects.Message {
 }
 
 func woToMessage(m *walletobjects.Message) *Message {
+	if m == nil {
+		return nil
+	}
+
 	return &Message{
 		Body:   m.Body,
 		Header: m.Header,
@@ -34,6 +38,10 @@ func (amr *AddMessageRequest) toWO() *walletobjects.AddMessageRequest {
 }
 
 func woToAddMessageRequest(amr *walletobjects.AddMessageRequest) *AddMessageRequest {
+	if amr == nil {
+		return nil
+	}
+
 	return &AddMessageRequest{
 		Message: woToMessage(amr.Message),
 	}

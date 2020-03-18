@@ -29,6 +29,10 @@ func listTranslatedStringToWO(ts []*TranslatedString) []*walletobjects.Translate
 }
 
 func woToTranslatedString(s *walletobjects.TranslatedString) *TranslatedString {
+	if s == nil {
+		return nil
+	}
+
 	return &TranslatedString{
 		Language: s.Language,
 		Value:    s.Value,

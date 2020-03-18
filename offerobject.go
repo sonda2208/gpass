@@ -2,6 +2,7 @@ package gpass
 
 import (
 	"context"
+	"errors"
 
 	"github.com/sonda2208/gpass/walletobjects"
 )
@@ -67,9 +68,9 @@ func (oo *OfferObject) Metadata(ctx context.Context) (*OfferObjectMetadata, erro
 		return nil, err
 	}
 
-	meta, err := woToOfferObjectMeta(o)
-	if err != nil {
-		return nil, err
+	meta := woToOfferObjectMeta(o)
+	if meta == nil {
+		return nil, errors.New("invalid metadata")
 	}
 
 	return meta, nil
@@ -86,7 +87,7 @@ func (oo *OfferObject) Update(ctx context.Context, oom *OfferObjectMetadataToUpd
 		return nil, err
 	}
 
-	return woToOfferObjectMeta(res)
+	return woToOfferObjectMeta(res), nil
 }
 
 func (oo *OfferObject) AddMessage(ctx context.Context, amr *AddMessageRequest) error {
@@ -117,7 +118,11 @@ func (oom *OfferObjectMetadata) toWO() (*walletobjects.OfferObject, error) {
 	return o, nil
 }
 
-func woToOfferObjectMeta(oo *walletobjects.OfferObject) (*OfferObjectMetadata, error) {
+func woToOfferObjectMeta(oo *walletobjects.OfferObject) *OfferObjectMetadata {
+	if oo == nil {
+		return nil
+	}
+
 	oom := &OfferObjectMetadata{
 		State:           oo.State,
 		Locations:       make([]*LatLongPoint, len(oo.Locations)),
@@ -134,7 +139,7 @@ func woToOfferObjectMeta(oo *walletobjects.OfferObject) (*OfferObjectMetadata, e
 		oom.TextModulesData[i] = woToTextModuleData(d)
 	}
 
-	return oom, nil
+	return oom
 }
 
 type OfferObjectMetadataToUpdate struct {

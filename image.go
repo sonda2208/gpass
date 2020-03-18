@@ -8,13 +8,17 @@ type Image struct {
 
 func (img *Image) toWO() *walletobjects.Image {
 	return &walletobjects.Image{
-		Kind:            "walletobjects#image",
-		SourceUri:       img.SourceURI.toWO(),
+		Kind:      "walletobjects#image",
+		SourceUri: img.SourceURI.toWO(),
 	}
 }
 
 func woToImage(img *walletobjects.Image) *Image {
+	if img == nil {
+		return nil
+	}
+
 	return &Image{
-		SourceURI:woToImageUri(img.SourceUri),
+		SourceURI: woToImageUri(img.SourceUri),
 	}
 }

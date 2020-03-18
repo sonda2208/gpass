@@ -2,6 +2,7 @@ package gpass
 
 import (
 	"context"
+	"errors"
 
 	"github.com/sonda2208/gpass/walletobjects"
 )
@@ -36,6 +37,10 @@ func (iss *Issuer) OfferClasses(ctx context.Context) ([]*OfferClass, error) {
 }
 
 func toOfferClass(oc *walletobjects.OfferClass, c *Client) *OfferClass {
+	if oc == nil {
+		return nil
+	}
+
 	return &OfferClass{
 		OfferClassID: oc.Id,
 		c:            c,
@@ -63,9 +68,9 @@ func (oc *OfferClass) Metadata(ctx context.Context) (*OfferClassMetadata, error)
 		return nil, err
 	}
 
-	meta, err := woToOfferClassMeta(o)
-	if err != nil {
-		return nil, err
+	meta := woToOfferClassMeta(o)
+	if meta == nil {
+		return nil, errors.New("invalid metadata")
 	}
 
 	return meta, nil
@@ -82,7 +87,7 @@ func (oc *OfferClass) Update(ctx context.Context, ocm *OfferClassMetadataToUpdat
 		return nil, err
 	}
 
-	return woToOfferClassMeta(res)
+	return woToOfferClassMeta(res), nil
 }
 
 func (oc *OfferClass) AddMessage(ctx context.Context, amr *AddMessageRequest) error {
@@ -122,7 +127,11 @@ func (ocm *OfferClassMetadata) toWO() (*walletobjects.OfferClass, error) {
 	}, nil
 }
 
-func woToOfferClassMeta(o *walletobjects.OfferClass) (*OfferClassMetadata, error) {
+func woToOfferClassMeta(o *walletobjects.OfferClass) *OfferClassMetadata {
+	if o == nil {
+		return nil
+	}
+
 	ocm := &OfferClassMetadata{
 		IssuerName:          o.IssuerName,
 		Provider:            o.Provider,
@@ -133,7 +142,7 @@ func woToOfferClassMeta(o *walletobjects.OfferClass) (*OfferClassMetadata, error
 		LocalizedShortTitle: woToLocalizedString(o.LocalizedShortTitle),
 		LocalizedTitle:      woToLocalizedString(o.LocalizedTitle),
 	}
-	return ocm, nil
+	return ocm
 }
 
 type OfferClassMetadataToUpdate struct {

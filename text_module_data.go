@@ -34,6 +34,10 @@ func listTextModuleDataToWO(d []*TextModuleData) []*walletobjects.TextModuleData
 }
 
 func woToTextModuleData(d *walletobjects.TextModuleData) *TextModuleData {
+	if d == nil {
+		return nil
+	}
+
 	return &TextModuleData{
 		Body:            d.Body,
 		Header:          d.Header,

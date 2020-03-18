@@ -20,6 +20,10 @@ func (ls *LocalizedString) toWO() *walletobjects.LocalizedString {
 }
 
 func woToLocalizedString(s *walletobjects.LocalizedString) *LocalizedString {
+	if s == nil {
+		return nil
+	}
+
 	res := &LocalizedString{
 		DefaultValue:     woToTranslatedString(s.DefaultValue),
 		TranslatedValues: make([]*TranslatedString, len(s.TranslatedValues)),

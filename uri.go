@@ -27,6 +27,10 @@ func listURIToWO(uris []*URI) []*walletobjects.Uri {
 }
 
 func woToUri(u *walletobjects.Uri) *URI {
+	if u == nil {
+		return nil
+	}
+
 	return &URI{
 		ID:                   u.Id,
 		URI:                  u.Uri,
@@ -47,6 +51,10 @@ func (iu *ImageUri) toWO() *walletobjects.ImageUri {
 }
 
 func woToImageUri(u *walletobjects.ImageUri) *ImageUri {
+	if u == nil {
+		return nil
+	}
+
 	return &ImageUri{
 		URI:                  u.Uri,
 		LocalizedDescription: woToLocalizedString(u.LocalizedDescription),
