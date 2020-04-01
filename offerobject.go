@@ -100,20 +100,22 @@ func (oo *OfferObject) AddMessage(ctx context.Context, amr *AddMessageRequest) e
 }
 
 type OfferObjectMetadata struct {
-	State           string
-	Locations       []*LatLongPoint
-	Barcode         *Barcode
-	LinksModuleData *LinksModuleData
-	TextModulesData []*TextModuleData
+	State            string
+	Locations        []*LatLongPoint
+	Barcode          *Barcode
+	LinksModuleData  *LinksModuleData
+	TextModulesData  []*TextModuleData
+	ImageModulesData []*ImageModuleData
 }
 
 func (oom *OfferObjectMetadata) toWO() (*walletobjects.OfferObject, error) {
 	o := &walletobjects.OfferObject{
-		State:           oom.State,
-		Locations:       locationListToWO(oom.Locations),
-		Barcode:         oom.Barcode.toWO(),
-		LinksModuleData: oom.LinksModuleData.toWO(),
-		TextModulesData: listTextModuleDataToWO(oom.TextModulesData),
+		State:            oom.State,
+		Locations:        locationListToWO(oom.Locations),
+		Barcode:          oom.Barcode.toWO(),
+		LinksModuleData:  oom.LinksModuleData.toWO(),
+		TextModulesData:  listTextModuleDataToWO(oom.TextModulesData),
+		ImageModulesData: listImageModuleDataToWO(oom.ImageModulesData),
 	}
 	return o, nil
 }
@@ -124,11 +126,12 @@ func woToOfferObjectMeta(oo *walletobjects.OfferObject) *OfferObjectMetadata {
 	}
 
 	oom := &OfferObjectMetadata{
-		State:           oo.State,
-		Locations:       make([]*LatLongPoint, len(oo.Locations)),
-		Barcode:         wotoBarcode(oo.Barcode),
-		LinksModuleData: woToLinksModuleData(oo.LinksModuleData),
-		TextModulesData: make([]*TextModuleData, len(oo.TextModulesData)),
+		State:            oo.State,
+		Locations:        make([]*LatLongPoint, len(oo.Locations)),
+		Barcode:          wotoBarcode(oo.Barcode),
+		LinksModuleData:  woToLinksModuleData(oo.LinksModuleData),
+		TextModulesData:  make([]*TextModuleData, len(oo.TextModulesData)),
+		ImageModulesData: make([]*ImageModuleData, len(oo.ImageModulesData)),
 	}
 
 	for i, l := range oo.Locations {
@@ -139,24 +142,30 @@ func woToOfferObjectMeta(oo *walletobjects.OfferObject) *OfferObjectMetadata {
 		oom.TextModulesData[i] = woToTextModuleData(d)
 	}
 
+	for i, d := range oo.ImageModulesData {
+		oom.ImageModulesData[i] = woToImageModuleData(d)
+	}
+
 	return oom
 }
 
 type OfferObjectMetadataToUpdate struct {
-	State           string
-	Locations       []*LatLongPoint
-	Barcode         *Barcode
-	LinksModuleData *LinksModuleData
-	TextModulesData []*TextModuleData
+	State            string
+	Locations        []*LatLongPoint
+	Barcode          *Barcode
+	LinksModuleData  *LinksModuleData
+	TextModulesData  []*TextModuleData
+	ImageModulesData []*ImageModuleData
 }
 
 func (oom *OfferObjectMetadataToUpdate) toWO() (*walletobjects.OfferObject, error) {
 	o := &walletobjects.OfferObject{
-		State:           oom.State,
-		Locations:       locationListToWO(oom.Locations),
-		Barcode:         oom.Barcode.toWO(),
-		LinksModuleData: oom.LinksModuleData.toWO(),
-		TextModulesData: listTextModuleDataToWO(oom.TextModulesData),
+		State:            oom.State,
+		Locations:        locationListToWO(oom.Locations),
+		Barcode:          oom.Barcode.toWO(),
+		LinksModuleData:  oom.LinksModuleData.toWO(),
+		TextModulesData:  listTextModuleDataToWO(oom.TextModulesData),
+		ImageModulesData: listImageModuleDataToWO(oom.ImageModulesData),
 	}
 	return o, nil
 }
