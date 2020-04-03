@@ -76,6 +76,7 @@ type JWT struct {
 	token        *jwt.Token
 	signKey      *rsa.PrivateKey
 	offerObjects []*walletobjects.OfferObject
+	origins      []string
 }
 
 func NewJWT(c *Client) (*JWT, error) {
@@ -95,11 +96,17 @@ func NewJWT(c *Client) (*JWT, error) {
 	}, nil
 }
 
-func (j *JWT) AddOfferObject(oo *OfferObject) {
+func (j *JWT) AddOfferObject(oo *OfferObject) *JWT {
 	j.offerObjects = append(j.offerObjects, &walletobjects.OfferObject{
 		ClassId: oo.OfferClassID,
 		Id:      oo.OfferObjectID,
 	})
+	return j
+}
+
+func (j *JWT) AddOrigin(origins ...string) *JWT {
+	j.origins = append(j.origins, origins...)
+	return j
 }
 
 func (j *JWT) Sign() (string, error) {
@@ -107,7 +114,7 @@ func (j *JWT) Sign() (string, error) {
 	j.token.Claims["payload"] = map[string]interface{}{
 		"offerObjects": j.offerObjects,
 	}
-	j.token.Claims["origins"] = []string{"http://localhost:8080"}
+	j.token.Claims["origins"] = j.origins
 	res, err := j.token.SignedString(j.signKey)
 	if err != nil {
 		return "", err
