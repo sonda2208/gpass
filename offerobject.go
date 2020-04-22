@@ -106,6 +106,7 @@ type OfferObjectMetadata struct {
 	LinksModuleData  *LinksModuleData
 	TextModulesData  []*TextModuleData
 	ImageModulesData []*ImageModuleData
+	AppLinkData      *AppLinkData
 }
 
 func (oom *OfferObjectMetadata) toWO() (*walletobjects.OfferObject, error) {
@@ -156,6 +157,7 @@ type OfferObjectMetadataToUpdate struct {
 	LinksModuleData  *LinksModuleData
 	TextModulesData  []*TextModuleData
 	ImageModulesData []*ImageModuleData
+	AppLinkData      *AppLinkData
 }
 
 func (oom *OfferObjectMetadataToUpdate) toWO() (*walletobjects.OfferObject, error) {
