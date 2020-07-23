@@ -76,7 +76,7 @@ func (lc *LoyaltyObject) Metadata(ctx context.Context) (*LoyaltyObjectMetadata, 
 	return meta, nil
 }
 
-func (lc *LoyaltyObject) Update(ctx context.Context, lom *LoyaltyObjectMetadata) (*LoyaltyObjectMetadata, error) {
+func (lc *LoyaltyObject) Update(ctx context.Context, lom *LoyaltyObjectMetadataUpdate) (*LoyaltyObjectMetadata, error) {
 	o, err := lom.toWO()
 	if err != nil {
 		return nil, err
