@@ -102,10 +102,11 @@ func (lc *LoyaltyClass) AddMessage(ctx context.Context, amr *AddMessageRequest) 
 type LoyaltyClassMetadata struct {
 	LocalizedAccountIdLabel   *LocalizedString
 	LocalizedAccountNameLabel *LocalizedString
+	ProgramLogo               *Image
+	ProgramName               string
 	HeroImage                 *Image
 	HexBackgroundColor        string
 	IssuerName                string
-	ProgramName               string
 	ReviewStatus              string
 }
 
@@ -117,6 +118,7 @@ func (lcm *LoyaltyClassMetadata) toWO() (*walletobjects.LoyaltyClass, error) {
 	return &walletobjects.LoyaltyClass{
 		LocalizedAccountIdLabel:   lcm.LocalizedAccountIdLabel.toWO(),
 		LocalizedAccountNameLabel: lcm.LocalizedAccountNameLabel.toWO(),
+		ProgramLogo:               lcm.ProgramLogo.toWO(),
 		HeroImage:                 lcm.HeroImage.toWO(),
 		HexBackgroundColor:        lcm.HexBackgroundColor,
 		IssuerName:                lcm.IssuerName,
@@ -133,6 +135,7 @@ func woToLoyaltyClassMeta(o *walletobjects.LoyaltyClass) *LoyaltyClassMetadata {
 	return &LoyaltyClassMetadata{
 		LocalizedAccountIdLabel:   woToLocalizedString(o.LocalizedAccountIdLabel),
 		LocalizedAccountNameLabel: woToLocalizedString(o.LocalizedAccountNameLabel),
+		ProgramLogo:               woToImage(o.ProgramLogo),
 		HeroImage:                 woToImage(o.HeroImage),
 		HexBackgroundColor:        o.HexBackgroundColor,
 		IssuerName:                o.IssuerName,
