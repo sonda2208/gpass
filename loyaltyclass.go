@@ -102,10 +102,11 @@ func (lc *LoyaltyClass) AddMessage(ctx context.Context, amr *AddMessageRequest) 
 type LoyaltyClassMetadata struct {
 	LocalizedAccountIdLabel   *LocalizedString
 	LocalizedAccountNameLabel *LocalizedString
+	ProgramLogo               *Image
+	ProgramName               string
 	HeroImage                 *Image
 	HexBackgroundColor        string
 	IssuerName                string
-	ProgramName               string
 	ReviewStatus              string
 }
 
@@ -114,15 +115,30 @@ func (lcm *LoyaltyClassMetadata) toWO() (*walletobjects.LoyaltyClass, error) {
 		return nil, nil
 	}
 
-	return &walletobjects.LoyaltyClass{
-		LocalizedAccountIdLabel:   lcm.LocalizedAccountIdLabel.toWO(),
-		LocalizedAccountNameLabel: lcm.LocalizedAccountNameLabel.toWO(),
-		HeroImage:                 lcm.HeroImage.toWO(),
-		HexBackgroundColor:        lcm.HexBackgroundColor,
-		IssuerName:                lcm.IssuerName,
-		ProgramName:               lcm.ProgramName,
-		ReviewStatus:              lcm.ReviewStatus,
-	}, nil
+	lc := &walletobjects.LoyaltyClass{
+		HexBackgroundColor: lcm.HexBackgroundColor,
+		IssuerName:         lcm.IssuerName,
+		ProgramName:        lcm.ProgramName,
+		ReviewStatus:       lcm.ReviewStatus,
+	}
+
+	if lcm.LocalizedAccountIdLabel != nil {
+		lc.LocalizedAccountIdLabel = lcm.LocalizedAccountIdLabel.toWO()
+	}
+
+	if lcm.LocalizedAccountNameLabel != nil {
+		lc.LocalizedAccountNameLabel = lcm.LocalizedAccountNameLabel.toWO()
+	}
+
+	if lcm.ProgramLogo != nil {
+		lc.ProgramLogo = lcm.ProgramLogo.toWO()
+	}
+
+	if lcm.HeroImage != nil {
+		lc.HeroImage = lcm.HeroImage.toWO()
+	}
+
+	return lc, nil
 }
 
 func woToLoyaltyClassMeta(o *walletobjects.LoyaltyClass) *LoyaltyClassMetadata {
@@ -133,6 +149,7 @@ func woToLoyaltyClassMeta(o *walletobjects.LoyaltyClass) *LoyaltyClassMetadata {
 	return &LoyaltyClassMetadata{
 		LocalizedAccountIdLabel:   woToLocalizedString(o.LocalizedAccountIdLabel),
 		LocalizedAccountNameLabel: woToLocalizedString(o.LocalizedAccountNameLabel),
+		ProgramLogo:               woToImage(o.ProgramLogo),
 		HeroImage:                 woToImage(o.HeroImage),
 		HexBackgroundColor:        o.HexBackgroundColor,
 		IssuerName:                o.IssuerName,
