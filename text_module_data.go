@@ -15,13 +15,21 @@ func (d *TextModuleData) toWO() *walletobjects.TextModuleData {
 		return nil
 	}
 
-	return &walletobjects.TextModuleData{
-		Body:            d.Body,
-		Header:          d.Header,
-		Id:              d.ID,
-		LocalizedBody:   d.LocalizedBody.toWO(),
-		LocalizedHeader: d.LocalizedHeader.toWO(),
+	res := walletobjects.TextModuleData{
+		Body:   d.Body,
+		Header: d.Header,
+		Id:     d.ID,
 	}
+
+	if d.LocalizedBody != nil {
+		res.LocalizedBody = d.LocalizedBody.toWO()
+	}
+
+	if d.LocalizedHeader != nil {
+		res.LocalizedHeader = d.LocalizedHeader.toWO()
+	}
+
+	return &res
 }
 
 func listTextModuleDataToWO(d []*TextModuleData) []*walletobjects.TextModuleData {

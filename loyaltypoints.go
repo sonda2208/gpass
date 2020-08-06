@@ -34,12 +34,17 @@ type LoyaltyPointsBalance struct {
 }
 
 func (lpb *LoyaltyPointsBalance) toWO() *walletobjects.LoyaltyPointsBalance {
-	return &walletobjects.LoyaltyPointsBalance{
+	res := walletobjects.LoyaltyPointsBalance{
 		Double: lpb.Double,
 		Int:    lpb.Int,
 		String: lpb.String,
-		Money:  lpb.Money.toWO(),
 	}
+
+	if lpb.Money != nil {
+		res.Money = lpb.Money.toWO()
+	}
+
+	return &res
 }
 
 func woToLoyaltyPointsBalance(lpb *walletobjects.LoyaltyPointsBalance) *LoyaltyPointsBalance {
@@ -62,11 +67,19 @@ type LoyaltyPoints struct {
 }
 
 func (lp *LoyaltyPoints) toWO() *walletobjects.LoyaltyPoints {
-	return &walletobjects.LoyaltyPoints{
-		Balance:        lp.Balance.toWO(),
-		Label:          lp.Label,
-		LocalizedLabel: lp.LocalizedLabel.toWO(),
+	res := walletobjects.LoyaltyPoints{
+		Label: lp.Label,
 	}
+
+	if lp.Balance != nil {
+		res.Balance = lp.Balance.toWO()
+	}
+
+	if lp.LocalizedLabel != nil {
+		res.LocalizedLabel = lp.LocalizedLabel.toWO()
+	}
+
+	return &res
 }
 
 func woToLoyaltyPoints(lp *walletobjects.LoyaltyPoints) *LoyaltyPoints {

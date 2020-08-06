@@ -206,20 +206,39 @@ type LoyaltyObjectMetadataUpdate struct {
 }
 
 func (lom *LoyaltyObjectMetadataUpdate) toWO() (*walletobjects.LoyaltyObject, error) {
-	o := &walletobjects.LoyaltyObject{
-		AccountId:              lom.AccountId,
-		AccountName:            lom.AccountName,
-		AppLinkData:            lom.AppLinkData.toWo(),
-		Barcode:                lom.Barcode.toWO(),
-		ImageModulesData:       listImageModuleDataToWO(lom.ImageModulesData),
-		LinkedOfferIds:         lom.LinkedOfferIds,
-		LinksModuleData:        lom.LinksModuleData.toWO(),
-		Locations:              locationListToWO(lom.Locations),
-		LoyaltyPoints:          lom.LoyaltyPoints.toWO(),
-		SecondaryLoyaltyPoints: lom.SecondaryLoyaltyPoints.toWO(),
-		State:                  lom.State,
-		TextModulesData:        listTextModuleDataToWO(lom.TextModulesData),
-		ValidTimeInterval:      lom.ValidTimeInterval.toWO(),
+	lo := &walletobjects.LoyaltyObject{
+		AccountId:        lom.AccountId,
+		AccountName:      lom.AccountName,
+		ImageModulesData: listImageModuleDataToWO(lom.ImageModulesData),
+		LinkedOfferIds:   lom.LinkedOfferIds,
+		Locations:        locationListToWO(lom.Locations),
+		State:            lom.State,
+		TextModulesData:  listTextModuleDataToWO(lom.TextModulesData),
 	}
-	return o, nil
+
+	if lom.AppLinkData != nil {
+		lo.AppLinkData = lom.AppLinkData.toWo()
+	}
+
+	if lom.Barcode != nil {
+		lo.Barcode = lom.Barcode.toWO()
+	}
+
+	if lom.LinksModuleData != nil {
+		lo.LinksModuleData = lom.LinksModuleData.toWO()
+	}
+
+	if lom.LoyaltyPoints != nil {
+		lo.LoyaltyPoints = lom.LoyaltyPoints.toWO()
+	}
+
+	if lom.SecondaryLoyaltyPoints != nil {
+		lo.SecondaryLoyaltyPoints = lom.SecondaryLoyaltyPoints.toWO()
+	}
+
+	if lom.ValidTimeInterval != nil {
+		lo.ValidTimeInterval = lom.ValidTimeInterval.toWO()
+	}
+
+	return lo, nil
 }
