@@ -30,12 +30,24 @@ type AppLinkInfo struct {
 }
 
 func (i AppLinkInfo) toWO() *walletobjects.AppLinkDataAppLinkInfo {
-	return &walletobjects.AppLinkDataAppLinkInfo{
-		AppLogoImage: i.AppLogoImage.toWO(),
-		AppTarget:    i.AppTarget.toWO(),
-		Description:  i.Description.toWO(),
-		Title:        i.Title.toWO(),
+	res := walletobjects.AppLinkDataAppLinkInfo{}
+	if i.AppLogoImage != nil {
+		res.AppLogoImage = i.AppLogoImage.toWO()
 	}
+
+	if i.AppTarget != nil {
+		res.AppTarget = i.AppTarget.toWO()
+	}
+
+	if i.Description != nil {
+		res.Description = i.Description.toWO()
+	}
+
+	if i.Title != nil {
+		res.Title = i.Title.toWO()
+	}
+
+	return &res
 }
 
 func woToAppLinkInfo(i *walletobjects.AppLinkDataAppLinkInfo) *AppLinkInfo {
@@ -58,11 +70,20 @@ type AppLinkData struct {
 }
 
 func (d AppLinkData) toWo() *walletobjects.AppLinkData {
-	return &walletobjects.AppLinkData{
-		AndroidAppLinkInfo: d.AndroidAppLinkInfo.toWO(),
-		IosAppLinkInfo:     d.IOSAppLinkInfo.toWO(),
-		WebAppLinkInfo:     d.WebAppLinkInfo.toWO(),
+	res := walletobjects.AppLinkData{}
+	if d.AndroidAppLinkInfo != nil {
+		res.AndroidAppLinkInfo = d.AndroidAppLinkInfo.toWO()
 	}
+
+	if d.IOSAppLinkInfo != nil {
+		res.IosAppLinkInfo = d.IOSAppLinkInfo.toWO()
+	}
+
+	if d.WebAppLinkInfo != nil {
+		res.WebAppLinkInfo = d.WebAppLinkInfo.toWO()
+	}
+
+	return &res
 }
 
 func woToAppLinkData(d *walletobjects.AppLinkData) *AppLinkData {

@@ -33,11 +33,19 @@ type TimeInterval struct {
 }
 
 func (ti *TimeInterval) toWO() *walletobjects.TimeInterval {
-	return &walletobjects.TimeInterval{
-		Start: ti.Start.toWO(),
-		End:   ti.End.toWO(),
-		Kind:  "walletobjects#timeInterval",
+	res := walletobjects.TimeInterval{
+		Kind: "walletobjects#timeInterval",
 	}
+
+	if ti.Start != nil {
+		res.Start = ti.Start.toWO()
+	}
+
+	if ti.End != nil {
+		res.End = ti.End.toWO()
+	}
+
+	return &res
 }
 
 func woToTimeInterval(ti *walletobjects.TimeInterval) *TimeInterval {

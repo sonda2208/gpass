@@ -9,12 +9,17 @@ type URI struct {
 }
 
 func (u *URI) toWO() *walletobjects.Uri {
-	return &walletobjects.Uri{
-		Id:                   u.ID,
-		Kind:                 "walletobjects#uri",
-		Uri:                  u.URI,
-		LocalizedDescription: u.LocalizedDescription.toWO(),
+	res := walletobjects.Uri{
+		Id:   u.ID,
+		Kind: "walletobjects#uri",
+		Uri:  u.URI,
 	}
+
+	if u.LocalizedDescription != nil {
+		res.LocalizedDescription = u.LocalizedDescription.toWO()
+	}
+
+	return &res
 }
 
 func listURIToWO(uris []*URI) []*walletobjects.Uri {

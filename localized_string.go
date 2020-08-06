@@ -12,11 +12,16 @@ func (ls *LocalizedString) toWO() *walletobjects.LocalizedString {
 		return nil
 	}
 
-	return &walletobjects.LocalizedString{
+	res := walletobjects.LocalizedString{
 		Kind:             "walletobjects#localizedString",
-		DefaultValue:     ls.DefaultValue.toWO(),
 		TranslatedValues: listTranslatedStringToWO(ls.TranslatedValues),
 	}
+
+	if ls.DefaultValue != nil {
+		res.DefaultValue = ls.DefaultValue.toWO()
+	}
+
+	return &res
 }
 
 func woToLocalizedString(s *walletobjects.LocalizedString) *LocalizedString {
