@@ -212,6 +212,24 @@ type FlightobjectService struct {
 	s *Service
 }
 
+func NewGenericclassService(s *Service) *GenericclassService {
+	rs := &GenericclassService{s: s}
+	return rs
+}
+
+type GenericclassService struct {
+	s *Service
+}
+
+func NewGenericobjectService(s *Service) *GenericobjectService {
+	rs := &GenericobjectService{s: s}
+	return rs
+}
+
+type GenericobjectService struct {
+	s *Service
+}
+
 func NewGiftcardclassService(s *Service) *GiftcardclassService {
 	rs := &GiftcardclassService{s: s}
 	return rs
@@ -3506,6 +3524,584 @@ func (s *FrequentFlyerInfo) MarshalJSON() ([]byte, error) {
 	raw := NoMethod(*s)
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
+
+///////////// START CUSTOM GENERIC CLASS INJECTION /////////////
+
+type GenericClass struct {
+		// AllowBarcodeRedemption: Determines whether the merchant supports gift
+	// card redemption using
+	// barcode. If true, app displays a barcode for the gift card on the
+	// Gift card
+	// details screen. If false, a barcode is not displayed.
+	AllowBarcodeRedemption bool `json:"allowBarcodeRedemption,omitempty"`
+
+	// AllowMultipleUsersPerObject: Deprecated. Use
+	// `multipleDevicesAndHoldersAllowedStatus`
+	// instead.
+	AllowMultipleUsersPerObject bool `json:"allowMultipleUsersPerObject,omitempty"`
+
+	// CallbackOptions: Callback options to be used to call the issuer back
+	// for every save/delete
+	// of an object for this class by the end-user.
+	// All objects of this class are eligible for the callback.
+	CallbackOptions *CallbackOptions `json:"callbackOptions,omitempty"`
+
+	// CardNumberLabel: The label to display for the card number, such as
+	// "Card Number".
+	CardNumberLabel string `json:"cardNumberLabel,omitempty"`
+
+	// ClassTemplateInfo: Template information about how the class should be
+	// displayed.
+	// If unset, Google will fallback to a default set of fields to display.
+	ClassTemplateInfo *ClassTemplateInfo `json:"classTemplateInfo,omitempty"`
+
+	// CountryCode: Country code used to display the card's country (when
+	// the user is not in
+	// that country), as well as to display localized content when content
+	// is not
+	// available in the user's locale.
+	CountryCode string `json:"countryCode,omitempty"`
+
+	// EnableSmartTap: Available only to Smart Tap enabled partners.
+	// Contact support for
+	// additional guidance.
+	EnableSmartTap bool `json:"enableSmartTap,omitempty"`
+
+	// EventNumberLabel: The label to display for event number, such as
+	// "Target Event #".
+	EventNumberLabel string `json:"eventNumberLabel,omitempty"`
+
+	// HeroImage: Optional banner image displayed on the front of the card.
+	// If none is
+	// present, nothing will be displayed. The image will display at 100%
+	// width.
+	HeroImage *Image `json:"heroImage,omitempty"`
+
+	// HexBackgroundColor: The background color for the card. If not set the
+	// dominant color of the
+	// hero image is used, and if no hero image is set, the dominant color
+	// of the
+	// logo is used. The format is #<var>rrggbb</var> where
+	// <var>rrggbb</var> is a
+	// hex RGB triplet, such as `#ffcc00`. You can also use the
+	// shorthand version of the RGB triplet which is #<var>rgb</var>, such
+	// as
+	// `#fc0`.
+	HexBackgroundColor string `json:"hexBackgroundColor,omitempty"`
+
+	// HomepageUri: The URI of your application's home page. Populating the
+	// URI in this field
+	// results in the exact same behavior as populating an URI in
+	// linksModuleData
+	// (when an object is rendered, a link to the homepage is shown in what
+	// would
+	// usually be thought of as the linksModuleData section of the object).
+	HomepageUri *Uri `json:"homepageUri,omitempty"`
+
+	// Id: Required. The unique identifier for a class. This ID must be
+	// unique across all
+	// classes from an issuer. This value should follow the format
+	// <var>issuer
+	// ID</var>.<var>identifier</var> where the former is issued by Google
+	// and
+	// latter is chosen by you. Your unique identifier should only
+	// include
+	// alphanumeric characters, '.', '_', or '-'.
+	Id string `json:"id,omitempty"`
+
+	// ImageModulesData: Image module data. The maximum number of these
+	// fields displayed is 1 from
+	// object level and 1 for class object level.
+	ImageModulesData []*ImageModuleData `json:"imageModulesData,omitempty"`
+
+	// InfoModuleData: Deprecated. Use textModulesData instead.
+	InfoModuleData *InfoModuleData `json:"infoModuleData,omitempty"`
+
+	// IssuerName: Required. The issuer name. Recommended maximum length is
+	// 20 characters to ensure full
+	// string is displayed on smaller screens.
+	IssuerName string `json:"issuerName,omitempty"`
+
+	// Kind: Identifies what kind of resource this is. Value: the fixed
+	// string
+	// "walletobjects#giftCardClass".
+	Kind string `json:"kind,omitempty"`
+
+	// LinksModuleData: Links module data. If links module data is also
+	// defined on the object, both
+	// will be displayed.
+	LinksModuleData *LinksModuleData `json:"linksModuleData,omitempty"`
+
+	// LocalizedCardNumberLabel: Translated strings for the
+	// card_number_label.
+	LocalizedCardNumberLabel *LocalizedString `json:"localizedCardNumberLabel,omitempty"`
+
+	// LocalizedEventNumberLabel: Translated strings for the
+	// event_number_label.
+	LocalizedEventNumberLabel *LocalizedString `json:"localizedEventNumberLabel,omitempty"`
+
+	// LocalizedIssuerName: Translated strings for the issuer_name.
+	// Recommended maximum length is 20
+	// characters to ensure full string is displayed on smaller screens.
+	LocalizedIssuerName *LocalizedString `json:"localizedIssuerName,omitempty"`
+
+	// LocalizedMerchantName: Translated strings for the merchant_name. The
+	// app may display an ellipsis
+	// after the first 20 characters to ensure full string is displayed on
+	// smaller
+	// screens.
+	LocalizedMerchantName *LocalizedString `json:"localizedMerchantName,omitempty"`
+
+	// LocalizedPinLabel: Translated strings for the pin_label.
+	LocalizedPinLabel *LocalizedString `json:"localizedPinLabel,omitempty"`
+
+	// Locations: The list of locations where the object can be used. The
+	// platform uses this
+	// information to trigger geolocated notifications to users. Note
+	// that
+	// locations in the object override locations in the class which
+	// override
+	// locations in the Google Places ID.
+	Locations []*LatLongPoint `json:"locations,omitempty"`
+
+	// MerchantName: Merchant name, such as "Adam's Apparel". The app may
+	// display an ellipsis
+	// after the first 20 characters to ensure full string is displayed on
+	// smaller
+	// screens.
+	MerchantName string `json:"merchantName,omitempty"`
+
+	// Messages: An array of messages displayed in the app. All users of
+	// this object will
+	// receive its associated messages. The maximum number of these fields
+	// is 10.
+	Messages []*Message `json:"messages,omitempty"`
+
+	// MultipleDevicesAndHoldersAllowedStatus: Identifies whether multiple
+	// users and devices will save the same object
+	// referencing this class.
+	//
+	// Possible values:
+	//   "STATUS_UNSPECIFIED"
+	//   "MULTIPLE_HOLDERS" - Multiple users on multiple devices are
+	// allowed.
+	//   "multipleHolders" - Legacy alias for `MULTIPLE_HOLDERS`.
+	// Deprecated.
+	//   "ONE_USER_ALL_DEVICES" - One user on multiple devices is allowed.
+	//   "oneUserAllDevices" - Legacy alias for `ONE_USER_ALL_DEVICES`.
+	// Deprecated.
+	//   "ONE_USER_ONE_DEVICE" - Intended for use by select partners in
+	// limited circumstances. Contact
+	// support for additional information.
+	//   "oneUserOneDevice" - Legacy alias for `ONE_USER_ONE_DEVICE`.
+	// Deprecated.
+	MultipleDevicesAndHoldersAllowedStatus string `json:"multipleDevicesAndHoldersAllowedStatus,omitempty"`
+
+	// PinLabel: The label to display for the PIN, such as "4-digit PIN".
+	PinLabel string `json:"pinLabel,omitempty"`
+
+	// ProgramLogo: The logo of the gift card program or company. This logo
+	// is displayed in
+	// both the details and list views of the app.
+	ProgramLogo *Image `json:"programLogo,omitempty"`
+
+	// RedemptionIssuers: Available only to Smart Tap enabled partners.
+	// Contact support for
+	// additional guidance.
+	RedemptionIssuers googleapi.Int64s `json:"redemptionIssuers,omitempty"`
+
+	// Review: The review comments set by the platform when a class is
+	// marked
+	// `approved` or `rejected`.
+	Review *Review `json:"review,omitempty"`
+
+	// ReviewStatus: Required. The status of the class. This field can be
+	// set to `draft`
+	// or `underReview` using the insert, patch, or update API calls.
+	// Once the review state is changed from `draft` it may not be
+	// changed back to `draft`.
+	//
+	// You should keep this field to `draft` when the class is
+	// under
+	// development. A `draft` class cannot be used to create
+	// any
+	// object.
+	//
+	// You should set this field to `underReview` when you
+	// believe the class is ready for use. The platform will automatically
+	// set
+	// this field to `approved` and it can be immediately used to
+	// create or migrate objects.
+	//
+	// When updating an already `approved` class you should keep
+	// setting this field to `underReview`.
+	//
+	// Possible values:
+	//   "REVIEW_STATUS_UNSPECIFIED"
+	//   "UNDER_REVIEW"
+	//   "underReview" - Legacy alias for `UNDER_REVIEW`.  Deprecated.
+	//   "APPROVED"
+	//   "approved" - Legacy alias for `APPROVED`.  Deprecated.
+	//   "REJECTED"
+	//   "rejected" - Legacy alias for `REJECTED`.  Deprecated.
+	//   "DRAFT"
+	//   "draft" - Legacy alias for `DRAFT`.  Deprecated.
+	ReviewStatus string `json:"reviewStatus,omitempty"`
+
+	// TextModulesData: Text module data. If text module data is also
+	// defined on the class, both
+	// will be displayed. The maximum number of these fields displayed is 10
+	// from
+	// the object and 10 from the class.
+	TextModulesData []*TextModuleData `json:"textModulesData,omitempty"`
+
+	// Version: Deprecated
+	Version int64 `json:"version,omitempty,string"`
+
+	// WordMark: Deprecated.
+	WordMark *Image `json:"wordMark,omitempty"`
+
+	// ServerResponse contains the HTTP response code and headers from the
+	// server.
+	googleapi.ServerResponse `json:"-"`
+
+	// ForceSendFields is a list of field names (e.g.
+	// "AllowBarcodeRedemption") to unconditionally include in API requests.
+	// By default, fields with empty values are omitted from API requests.
+	// However, any non-pointer, non-interface field appearing in
+	// ForceSendFields will be sent to the server regardless of whether the
+	// field is empty or not. This may be used to include empty fields in
+	// Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "AllowBarcodeRedemption")
+	// to include in API requests with the JSON null value. By default,
+	// fields with empty values are omitted from API requests. However, any
+	// field with an empty value appearing in NullFields will be sent to the
+	// server as null. It is an error if a field in this list has a
+	// non-empty value. This may be used to include null fields in Patch
+	// requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *GenericClass) MarshalJSON() ([]byte, error) {
+	type NoMethod GenericClass
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+type GenericClassAddMessageResponse struct {
+	// Resource: The updated GiftCardClass resource.
+	Resource *GenericClass `json:"resource,omitempty"`
+
+	// ServerResponse contains the HTTP response code and headers from the
+	// server.
+	googleapi.ServerResponse `json:"-"`
+
+	// ForceSendFields is a list of field names (e.g. "Resource") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "Resource") to include in
+	// API requests with the JSON null value. By default, fields with empty
+	// values are omitted from API requests. However, any field with an
+	// empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *GenericClassAddMessageResponse) MarshalJSON() ([]byte, error) {
+	type NoMethod GenericClassAddMessageResponse
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+type GenericClassListResponse struct {
+	// Pagination: Pagination of the response.
+	Pagination *Pagination `json:"pagination,omitempty"`
+
+	// Resources: Resources corresponding to the list request.
+	Resources []*GenericClass `json:"resources,omitempty"`
+
+	// ServerResponse contains the HTTP response code and headers from the
+	// server.
+	googleapi.ServerResponse `json:"-"`
+
+	// ForceSendFields is a list of field names (e.g. "Pagination") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "Pagination") to include in
+	// API requests with the JSON null value. By default, fields with empty
+	// values are omitted from API requests. However, any field with an
+	// empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *GenericClassListResponse) MarshalJSON() ([]byte, error) {
+	type NoMethod GenericClassListResponse
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+////////////////// END CUSTOM GENERIC CLASS INJECTION ///////////////////
+
+///////////////// START GENERIC OBJECT INJECTION ////////////////////////
+type GenericObject struct { //TODO THIS MUST BE MAPPED TO THE GCLOUD API FOUND HERE https://developers.google.com/wallet/generic/rest/v1/genericobject
+	// AppLinkData: Optional information about the partner app link.
+	AppLinkData *AppLinkData `json:"appLinkData,omitempty"`
+
+	// Balance: The card's monetary balance.
+	Balance *Money `json:"balance,omitempty"`
+
+	// BalanceUpdateTime: The date and time when the balance was last
+	// updated.
+	//
+	// Offset is required.
+	//
+	// If balance is updated and this property is not provided, system
+	// will
+	// default to the current time.
+	BalanceUpdateTime *DateTime `json:"balanceUpdateTime,omitempty"`
+
+	// Barcode: The barcode type and value.
+	Barcode *Barcode `json:"barcode,omitempty"`
+
+	// CardNumber: Required. The card's number.
+	CardNumber string `json:"cardNumber,omitempty"`
+
+	// ClassId: Required. The class associated with this object. The class
+	// must be of the same type
+	// as this object, must already exist, and must be approved.
+	//
+	// Class IDs should follow the format
+	// <var>issuer
+	// ID</var>.<var>identifier</var> where the former is issued by Google
+	// and
+	// latter is chosen by you.
+	ClassId string `json:"classId,omitempty"`
+
+	// ClassReference: A copy of the inherited fields of the parent class.
+	// These fields are
+	// retrieved during a GET.
+	ClassReference *GenericClass `json:"classReference,omitempty"`
+
+	// DisableExpirationNotification: Indicates if notifications should
+	// explicitly be suppressed. If this field
+	// is set to true, regardless of the `messages` field,
+	// expiration
+	// notifications to the user will be suppressed. By default, this field
+	// is set
+	// to false.
+	//
+	// Currently, this can only be set for offers.https://developers.google.com/wallet/generic/rest/v1/genericobject
+	DisableExpirationNotification bool `json:"disableExpirationNotification,omitempty"`
+
+	// EventNumber: The card's event number, an optional field used by some
+	// gift cards.
+	EventNumber string `json:"eventNumber,omitempty"`
+
+	// HasLinkedDevice: Whether this object is currently linked to a single
+	// device. This field is
+	// set by the platform when a user saves the object, linking it to
+	// their
+	// device. Intended for use by select partners. Contact support
+	// for
+	// additional information.
+	HasLinkedDevice bool `json:"hasLinkedDevice,omitempty"`
+
+	// HasUsers: Indicates if the object has users. This field is set by the
+	// platform.
+	HasUsers bool `json:"hasUsers,omitempty"`
+
+	// Id: Required. The unique identifier for an object. This ID must be
+	// unique across all
+	// objects from an issuer. This value should follow the format
+	// <var>issuer
+	// ID</var>.<var>identifier</var> where the former is issued by Google
+	// and
+	// latter is chosen by you. The unique identifier should only
+	// include
+	// alphanumeric characters, '.', '_', or '-'.
+	Id string `json:"id,omitempty"`
+
+	// ImageModulesData: Image module data. The maximum number of these
+	// fields displayed is 1 from
+	// object level and 1 for class object level.
+	ImageModulesData []*ImageModuleData `json:"imageModulesData,omitempty"`
+
+	// InfoModuleData: Deprecated. Use textModulesData instead.
+	InfoModuleData *InfoModuleData `json:"infoModuleData,omitempty"`
+
+	// Kind: Identifies what kind of resource this is. Value: the fixed
+	// string
+	// "walletobjects#giftCardObject".
+	Kind string `json:"kind,omitempty"`
+
+	// LinksModuleData: Links module data. If links module data is also
+	// defined on the class, both
+	// will be displayed.
+	LinksModuleData *LinksModuleData `json:"linksModuleData,omitempty"`
+
+	// Locations: The list of locations where the object can be used. The
+	// platform uses thishttps://developers.google.com/wallet/generic/rest/v1/genericobject
+	// locations in the object override locations in the class which
+	// override
+	// locations in the Google Places ID.
+	Locations []*LatLongPoint `json:"locations,omitempty"`
+
+	// Messages: An array of messages displayed in the app. All users of
+	// this object will
+	// receive its associated messages. The maximum number of these fields
+	// is 10.
+	Messages []*Message `json:"messages,omitempty"`
+
+	// Pin: The card's PIN.
+	Pin string `json:"pin,omitempty"`
+
+	// SmartTapRedemptionValue: Available only to Smart Tap enabled
+	// partners. Contact support for
+	// additional guidance.
+	SmartTapRedemptionValue string `json:"smartTapRedemptionValue,omitempty"`
+
+	// State: Required. The state of the object. This field is used to
+	// determine how an object is
+	// displayed in the app. For example, an `inactive` object is no
+	// longer displayed in the Google Pay app.
+	//
+	// Possible values:
+	//   "STATE_UNSPECIFIED"https://developers.google.com/wallet/generic/rest/v1/genericobject
+	//   "ACTIVE" - Object is active and displayed to with other active
+	// objects.
+	//   "active" - Legacy alias for `ACTIVE`.  Deprecated.
+	//   "COMPLETED"
+	//   "completed" - Legacy alias for `COMPLETED`.  Deprecated.
+	//   "EXPIRED" - Object is no longer valid (`validTimeInterval` passed).
+	//   "expired" - Legacy alias for `EXPIRED`.  Deprecated.
+	//   "INACTIVE"
+	//   "inactive" - Legacy alias for `INACTIVE`.  Deprecated.
+	State string `json:"state,omitempty"`
+
+	// TextModulesData: Text module data. If text module data is also
+	// defined on the class, both
+	// will be displayed. The maximum number of these fields displayed is 10
+	// from
+	// the object and 10 from the class.
+	TextModulesData []*TextModuleData `json:"textModulesData,omitempty"`
+
+	// ValidTimeInterval: The time period this object will be `active` and
+	// object can be
+	// used. An object's state will be changed to `expired` when this
+	// time period has passed.
+	ValidTimeInterval *TimeInterval `json:"validTimeInterval,omitempty"`
+
+	// Version: Deprecated
+	Version int64 `json:"version,omitempty,string"`
+
+	// ServerResponse contains the HTTP response code and headers from the
+	// server.
+	googleapi.ServerResponse `json:"-"`
+
+	// ForceSendFields is a list of field names (e.g. "AppLinkData") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "AppLinkData") to include
+	// in API requests with the JSON null value. By default, fields with
+	// empty values are omitted from API requests. However, any field with
+	// an empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *GenericObject) MarshalJSON() ([]byte, error) {
+	type NoMethod GenericObject
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+type GenericObjectAddMessageResponse struct {
+	// Resource: The updated GenericObject resource.
+	Resource *GenericObject `json:"resource,omitempty"`
+
+	// ServerResponse contains the HTTP response code and headers from the
+	// server.
+	googleapi.ServerResponse `json:"-"`
+
+	// ForceSendFields is a list of field names (e.g. "Resource") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "Resource") to include in
+	// API requests with the JSON null value. By default, fields with empty
+	// values are omitted from API requests. However, any field with an
+	// empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *GenericObjectAddMessageResponse) MarshalJSON() ([]byte, error) {
+	type NoMethod GenericObjectAddMessageResponse
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+type GenericObjectListResponse struct {
+	// Pagination: Pagination of the response.
+	Pagination *Pagination `json:"pagination,omitempty"`
+
+	// Resources: Resources corresponding to the list request.
+	Resources []*GenericObject `json:"resources,omitempty"`
+
+	// ServerResponse contains the HTTP response code and headers from the
+	// server.
+	googleapi.ServerResponse `json:"-"`
+
+	// ForceSendFields is a list of field names (e.g. "Pagination") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "Pagination") to include in
+	// API requests with the JSON null value. By default, fields with empty
+	// values are omitted from API requests. However, any field with an
+	// empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *GenericObjectListResponse) MarshalJSON() ([]byte, error) {
+	type NoMethod GenericObjectListResponse
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+///////////////// END GENERIC OBJECT INJECTION
 
 type GiftCardClass struct {
 	// AllowBarcodeRedemption: Determines whether the merchant supports gift
@@ -11515,6 +12111,1733 @@ func (c *FlightobjectUpdateCall) Do(opts ...googleapi.CallOption) (*FlightObject
 	// }
 
 }
+
+// method id "walletobjects.genericclass.addmessage":
+type GenericclassAddmessageCall struct {
+	s                 *Service
+	resourceId        string
+	addmessagerequest *AddMessageRequest
+	urlParams_        gensupport.URLParams
+	ctx_              context.Context
+	header_           http.Header
+}
+
+// Addmessage: Adds a message to the gift card class referenced by the
+// given class ID.
+func (r *GenericclassService) Addmessage(resourceId string, addmessagerequest *AddMessageRequest) *GenericclassAddmessageCall {
+	c := &GenericclassAddmessageCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.resourceId = resourceId
+	c.addmessagerequest = addmessagerequest
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericclassAddmessageCall) Fields(s ...googleapi.Field) *GenericclassAddmessageCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericclassAddmessageCall) Context(ctx context.Context) *GenericclassAddmessageCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericclassAddmessageCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericclassAddmessageCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.addmessagerequest)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericClass/{resourceId}/addMessage")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("POST", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"resourceId": c.resourceId,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.giftcardclass.addmessage" call.
+// Exactly one of *GiftCardClassAddMessageResponse or error will be
+// non-nil. Any non-2xx status code is an error. Response headers are in
+// either *GiftCardClassAddMessageResponse.ServerResponse.Header or (if
+// a response was returned at all) in error.(*googleapi.Error).Header.
+// Use googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericclassAddmessageCall) Do(opts ...googleapi.CallOption) (*GenericClassAddMessageResponse, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GenericClassAddMessageResponse{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Adds a message to the generic class referenced by the given class ID.",
+	//   "flatPath": "walletobjects/v1/genericClass/{resourceId}/addMessage",
+	//   "httpMethod": "POST",
+	//   "id": "walletobjects.genericclass.addmessage",
+	//   "parameterOrder": [
+	//     "resourceId"
+	//   ],
+	//   "parameters": {
+	//     "resourceId": {
+	//       "description": "The unique identifier for a class. This ID must be unique across all\nclasses from an issuer. This value should follow the format \u003cvar\u003eissuer\nID\u003c/var\u003e.\u003cvar\u003eidentifier\u003c/var\u003e where the former is issued by Google and\nlatter is chosen by you. Your unique identifier should only include\nalphanumeric characters, '.', '_', or '-'.",
+	//       "location": "path",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "walletobjects/v1/genericClass/{resourceId}/addMessage",
+	//   "request": {
+	//     "$ref": "AddMessageRequest"
+	//   },
+	//   "response": {
+	//     "$ref": "GenericClassAddMessageResponse"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+// method id "walletobjects.genericclass.get":
+
+type GenericclassGetCall struct {
+	s            *Service
+	resourceId   string
+	urlParams_   gensupport.URLParams
+	ifNoneMatch_ string
+	ctx_         context.Context
+	header_      http.Header
+}
+
+// Get: Returns the gift card class with the given class ID.
+func (r *GenericclassService) Get(resourceId string) *GenericclassGetCall {
+	c := &GenericclassGetCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.resourceId = resourceId
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericclassGetCall) Fields(s ...googleapi.Field) *GenericclassGetCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// IfNoneMatch sets the optional parameter which makes the operation
+// fail if the object's ETag matches the given value. This is useful for
+// getting updates only after the object has changed since the last
+// request. Use googleapi.IsNotModified to check whether the response
+// error from Do is the result of In-None-Match.
+func (c *GenericclassGetCall) IfNoneMatch(entityTag string) *GenericclassGetCall {
+	c.ifNoneMatch_ = entityTag
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericclassGetCall) Context(ctx context.Context) *GenericclassGetCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericclassGetCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericclassGetCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	if c.ifNoneMatch_ != "" {
+		reqHeaders.Set("If-None-Match", c.ifNoneMatch_)
+	}
+	var body io.Reader = nil
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericClass/{resourceId}")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("GET", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"resourceId": c.resourceId,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.giftcardclass.get" call.
+// Exactly one of *GiftCardClass or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *GiftCardClass.ServerResponse.Header or (if a response was returned
+// at all) in error.(*googleapi.Error).Header. Use
+// googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericclassGetCall) Do(opts ...googleapi.CallOption) (*GenericClass, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GenericClass{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Returns the generic class with the given class ID.",
+	//   "flatPath": "walletobjects/v1/genericClass/{resourceId}",
+	//   "httpMethod": "GET",
+	//   "id": "walletobjects.genericclass.get",
+	//   "parameterOrder": [
+	//     "resourceId"
+	//   ],
+	//   "parameters": {
+	//     "resourceId": {
+	//       "description": "The unique identifier for a class. This ID must be unique across all\nclasses from an issuer. This value should follow the format \u003cvar\u003eissuer\nID\u003c/var\u003e.\u003cvar\u003eidentifier\u003c/var\u003e where the former is issued by Google and\nlatter is chosen by you. Your unique identifier should only include\nalphanumeric characters, '.', '_', or '-'.",
+	//       "location": "path",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "walletobjects/v1/genericClass/{resourceId}",
+	//   "response": {
+	//     "$ref": "GenericClass"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+// method id "walletobjects.genericclass.insert":
+type GenericclassInsertCall struct {
+	s             *Service
+	genericclass  *GenericClass
+	urlParams_    gensupport.URLParams
+	ctx_          context.Context
+	header_       http.Header
+}
+
+// Insert: Inserts an generic class with the given ID and properties.
+func (r *GenericclassService) Insert(genericclass *GenericClass) *GenericclassInsertCall {
+	c := &GenericclassInsertCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.genericclass = genericclass
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericclassInsertCall) Fields(s ...googleapi.Field) *GenericclassInsertCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericclassInsertCall) Context(ctx context.Context) *GenericclassInsertCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericclassInsertCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericclassInsertCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.genericclass)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/giftCardClass")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("POST", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.genericclass.insert" call.
+// Exactly one of *GiftCardClass or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *GiftCardClass.ServerResponse.Header or (if a response was returned
+// at all) in error.(*googleapi.Error).Header. Use
+// googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericclassInsertCall) Do(opts ...googleapi.CallOption) (*GenericClass, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GenericClass{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Inserts a generic class with the given ID and properties.",
+	//   "flatPath": "walletobjects/v1/genericClass",
+	//   "httpMethod": "POST",
+	//   "id": "walletobjects.genericclass.insert",
+	//   "parameterOrder": [],
+	//   "parameters": {},
+	//   "path": "walletobjects/v1/genericClass",
+	//   "request": {
+	//     "$ref": "genericClass"
+	//   },
+	//   "response": {
+	//     "$ref": "genericClass"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+// method id "walletobjects.genericobject.list":
+
+type GenericclassListCall struct {
+	s            *Service
+	urlParams_   gensupport.URLParams
+	ifNoneMatch_ string
+	ctx_         context.Context
+	header_      http.Header
+}
+
+// List: Returns a list of all generic classes for a given issuer ID.
+func (r *GenericclassService) List() *GenericclassListCall {
+	c := &GenericclassListCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	return c
+}
+
+// IssuerId sets the optional parameter "issuerId": The ID of the issuer
+// authorized to list classes.
+func (c *GenericclassListCall) IssuerId(issuerId int64) *GenericclassListCall {
+	c.urlParams_.Set("issuerId", fmt.Sprint(issuerId))
+	return c
+}
+
+// MaxResults sets the optional parameter "maxResults": Identifies the
+// max number of results returned by a list. All results
+// are returned if `maxResults` isn't defined.
+func (c *GenericclassListCall) MaxResults(maxResults int64) *GenericclassListCall {
+	c.urlParams_.Set("maxResults", fmt.Sprint(maxResults))
+	return c
+}
+
+// Token sets the optional parameter "token": Used to get the next set
+// of results if `maxResults` is
+// specified, but more than `maxResults` classes are available
+// in a list. For example, if you have a list of 200 classes and you
+// call
+// list with `maxResults` set to 20, list will return the first
+// 20 classes and a token. Call list again with `maxResults`
+// set to 20 and the token to get the next 20 classes.
+func (c *GenericclassListCall) Token(token string) *GenericclassListCall {
+	c.urlParams_.Set("token", token)
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericclassListCall) Fields(s ...googleapi.Field) *GenericclassListCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// IfNoneMatch sets the optional parameter which makes the operation
+// fail if the object's ETag matches the given value. This is useful for
+// getting updates only after the object has changed since the last
+// request. Use googleapi.IsNotModified to check whether the response
+// error from Do is the result of In-None-Match.
+func (c *GenericclassListCall) IfNoneMatch(entityTag string) *GenericclassListCall {
+	c.ifNoneMatch_ = entityTag
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericclassListCall) Context(ctx context.Context) *GenericclassListCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericclassListCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericclassListCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	if c.ifNoneMatch_ != "" {
+		reqHeaders.Set("If-None-Match", c.ifNoneMatch_)
+	}
+	var body io.Reader = nil
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericClass")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("GET", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.genericclass.list" call.
+// Exactly one of *GiftCardClassListResponse or error will be non-nil.
+// Any non-2xx status code is an error. Response headers are in either
+// *GiftCardClassListResponse.ServerResponse.Header or (if a response
+// was returned at all) in error.(*googleapi.Error).Header. Use
+// googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericclassListCall) Do(opts ...googleapi.CallOption) (*GenericClassListResponse, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GenericClassListResponse{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Returns a list of all gift card classes for a given issuer ID.",
+	//   "flatPath": "walletobjects/v1/giftCardClass",
+	//   "httpMethod": "GET",
+	//   "id": "walletobjects.giftcardclass.list",
+	//   "parameterOrder": [],
+	//   "parameters": {
+	//     "issuerId": {
+	//       "description": "The ID of the issuer authorized to list classes.",
+	//       "format": "int64",
+	//       "location": "query",
+	//       "type": "string"
+	//     },
+	//     "maxResults": {
+	//       "description": "Identifies the max number of results returned by a list. All results\nare returned if `maxResults` isn't defined.",
+	//       "format": "int32",
+	//       "location": "query",
+	//       "type": "integer"
+	//     },
+	//     "token": {
+	//       "description": "Used to get the next set of results if `maxResults` is\nspecified, but more than `maxResults` classes are available\nin a list. For example, if you have a list of 200 classes and you call\nlist with `maxResults` set to 20, list will return the first\n20 classes and a token. Call list again with `maxResults`\nset to 20 and the token to get the next 20 classes.",
+	//       "location": "query",
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "walletobjects/v1/giftCardClass",
+	//   "response": {
+	//     "$ref": "GiftCardClassListResponse"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+// method id "walletobjects.genericclass.patch":
+
+type GenericclassPatchCall struct {
+	s             *Service
+	resourceId    string
+	genericclass  *GenericClass
+	urlParams_    gensupport.URLParams
+	ctx_          context.Context
+	header_       http.Header
+}
+
+// Patch: Updates the generic class referenced by the given class ID.
+// This
+// method supports patch semantics.
+func (r *GenericclassService) Patch(resourceId string, genericclass *GenericClass) *GenericclassPatchCall {
+	c := &GenericclassPatchCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.resourceId = resourceId
+	c.genericclass = genericclass
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericclassPatchCall) Fields(s ...googleapi.Field) *GenericclassPatchCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericclassPatchCall) Context(ctx context.Context) *GenericclassPatchCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericclassPatchCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericclassPatchCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.genericclass)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericClass/{resourceId}")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("PATCH", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"resourceId": c.resourceId,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.genericclass.patch" call.
+// Exactly one of *GiftCardClass or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *GiftCardClass.ServerResponse.Header or (if a response was returned
+// at all) in error.(*googleapi.Error).Header. Use
+// googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericclassPatchCall) Do(opts ...googleapi.CallOption) (*GenericClass, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GenericClass{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Updates the gift card class referenced by the given class ID. This\nmethod supports patch semantics.",
+	//   "flatPath": "walletobjects/v1/giftCardClass/{resourceId}",
+	//   "httpMethod": "PATCH",
+	//   "id": "walletobjects.giftcardclass.patch",
+	//   "parameterOrder": [
+	//     "resourceId"
+	//   ],
+	//   "parameters": {
+	//     "resourceId": {
+	//       "description": "The unique identifier for a class. This ID must be unique across all\nclasses from an issuer. This value should follow the format \u003cvar\u003eissuer\nID\u003c/var\u003e.\u003cvar\u003eidentifier\u003c/var\u003e where the former is issued by Google and\nlatter is chosen by you. Your unique identifier should only include\nalphanumeric characters, '.', '_', or '-'.",
+	//       "location": "path",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "walletobjects/v1/giftCardClass/{resourceId}",
+	//   "request": {
+	//     "$ref": "GiftCardClass"
+	//   },
+	//   "response": {
+	//     "$ref": "GiftCardClass"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+// method id "walletobjects.genericclass.update":
+
+type GenericclassUpdateCall struct {
+	s             *Service
+	resourceId    string
+	genericclass *GenericClass
+	urlParams_    gensupport.URLParams
+	ctx_          context.Context
+	header_       http.Header
+}
+
+// Update: Updates the generic class referenced by the given class ID.
+func (r *GenericclassService) Update(resourceId string, genericclass *GenericClass) *GenericclassUpdateCall {
+	c := &GenericclassUpdateCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.resourceId = resourceId
+	c.genericclass = genericclass
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericclassUpdateCall) Fields(s ...googleapi.Field) *GenericclassUpdateCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericclassUpdateCall) Context(ctx context.Context) *GenericclassUpdateCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericclassUpdateCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericclassUpdateCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.genericclass)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericClass/{resourceId}")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("PUT", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"resourceId": c.resourceId,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.genericclass.update" call.
+// Exactly one of *GiftCardClass or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *GiftCardClass.ServerResponse.Header or (if a response was returned
+// at all) in error.(*googleapi.Error).Header. Use
+// googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericclassUpdateCall) Do(opts ...googleapi.CallOption) (*GenericClass, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GenericClass{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Updates the gift card class referenced by the given class ID.",
+	//   "flatPath": "walletobjects/v1/giftCardClass/{resourceId}",
+	//   "httpMethod": "PUT",
+	//   "id": "walletobjects.giftcardclass.update",
+	//   "parameterOrder": [
+	//     "resourceId"
+	//   ],
+	//   "parameters": {
+	//     "resourceId": {
+	//       "description": "The unique identifier for a class. This ID must be unique across all\nclasses from an issuer. This value should follow the format \u003cvar\u003eissuer\nID\u003c/var\u003e.\u003cvar\u003eidentifier\u003c/var\u003e where the former is issued by Google and\nlatter is chosen by you. Your unique identifier should only include\nalphanumeric characters, '.', '_', or '-'.",
+	//       "location": "path",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "walletobjects/v1/giftCardClass/{resourceId}",
+	//   "request": {
+	//     "$ref": "GiftCardClass"
+	//   },
+	//   "response": {
+	//     "$ref": "GiftCardClass"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+// method id "walletobjects.genericobject.addmessage":
+
+type GenericobjectAddmessageCall struct {
+	s                 *Service
+	resourceId        string
+	addmessagerequest *AddMessageRequest
+	urlParams_        gensupport.URLParams
+	ctx_              context.Context
+	header_           http.Header
+}
+
+// Addmessage: Adds a message to the gift card object referenced by the
+// given object
+// ID.
+func (r *GenericobjectService) Addmessage(resourceId string, addmessagerequest *AddMessageRequest) *GenericobjectAddmessageCall {
+	c := &GenericobjectAddmessageCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.resourceId = resourceId
+	c.addmessagerequest = addmessagerequest
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericobjectAddmessageCall) Fields(s ...googleapi.Field) *GenericobjectAddmessageCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericobjectAddmessageCall) Context(ctx context.Context) *GenericobjectAddmessageCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericobjectAddmessageCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericobjectAddmessageCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.addmessagerequest)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericObject/{resourceId}/addMessage")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("POST", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"resourceId": c.resourceId,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.giftcardobject.addmessage" call.
+// Exactly one of *GiftCardObjectAddMessageResponse or error will be
+// non-nil. Any non-2xx status code is an error. Response headers are in
+// either *GiftCardObjectAddMessageResponse.ServerResponse.Header or (if
+// a response was returned at all) in error.(*googleapi.Error).Header.
+// Use googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericobjectAddmessageCall) Do(opts ...googleapi.CallOption) (*GenericObjectAddMessageResponse, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GenericObjectAddMessageResponse{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Adds a message to the gift card object referenced by the given object\nID.",
+	//   "flatPath": "walletobjects/v1/giftCardObject/{resourceId}/addMessage",
+	//   "httpMethod": "POST",
+	//   "id": "walletobjects.giftcardobject.addmessage",
+	//   "parameterOrder": [
+	//     "resourceId"
+	//   ],
+	//   "parameters": {
+	//     "resourceId": {
+	//       "description": "The unique identifier for an object. This ID must be unique across all\nobjects from an issuer. This value should follow the format \u003cvar\u003eissuer\nID\u003c/var\u003e.\u003cvar\u003eidentifier\u003c/var\u003e where the former is issued by Google and\nlatter is chosen by you. Your unique identifier should only include\nalphanumeric characters, '.', '_', or '-'.",
+	//       "location": "path",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "walletobjects/v1/giftCardObject/{resourceId}/addMessage",
+	//   "request": {
+	//     "$ref": "AddMessageRequest"
+	//   },
+	//   "response": {
+	//     "$ref": "GiftCardObjectAddMessageResponse"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+// method id "walletobjects.genericobject.get":
+
+type GenericobjectGetCall struct {
+	s            *Service
+	resourceId   string
+	urlParams_   gensupport.URLParams
+	ifNoneMatch_ string
+	ctx_         context.Context
+	header_      http.Header
+}
+
+// Get: Returns the generic object with the given object ID.
+func (r *GenericobjectService) Get(resourceId string) *GenericobjectGetCall {
+	c := &GenericobjectGetCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.resourceId = resourceId
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericobjectGetCall) Fields(s ...googleapi.Field) *GenericobjectGetCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// IfNoneMatch sets the optional parameter which makes the operation
+// fail if the object's ETag matches the given value. This is useful for
+// getting updates only after the object has changed since the last
+// request. Use googleapi.IsNotModified to check whether the response
+// error from Do is the result of In-None-Match.
+func (c *GenericobjectGetCall) IfNoneMatch(entityTag string) *GenericobjectGetCall {
+	c.ifNoneMatch_ = entityTag
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericobjectGetCall) Context(ctx context.Context) *GenericobjectGetCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericobjectGetCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericobjectGetCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	if c.ifNoneMatch_ != "" {
+		reqHeaders.Set("If-None-Match", c.ifNoneMatch_)
+	}
+	var body io.Reader = nil
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericObject/{resourceId}")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("GET", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"resourceId": c.resourceId,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.genericobject.get" call.
+// Exactly one of *GiftCardObject or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *GiftCardObject.ServerResponse.Header or (if a response was returned
+// at all) in error.(*googleapi.Error).Header. Use
+// googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericobjectGetCall) Do(opts ...googleapi.CallOption) (*GenericObject, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GiftCardObject{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Returns the gift card object with the given object ID.",
+	//   "flatPath": "walletobjects/v1/giftCardObject/{resourceId}",
+	//   "httpMethod": "GET",
+	//   "id": "walletobjects.giftcardobject.get",
+	//   "parameterOrder": [
+	//     "resourceId"
+	//   ],
+	//   "parameters": {
+	//     "resourceId": {
+	//       "description": "The unique identifier for an object. This ID must be unique across all\nobjects from an issuer. This value should follow the format \u003cvar\u003eissuer\nID\u003c/var\u003e.\u003cvar\u003eidentifier\u003c/var\u003e where the former is issued by Google and\nlatter is chosen by you. Your unique identifier should only include\nalphanumeric characters, '.', '_', or '-'.",
+	//       "location": "path",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "walletobjects/v1/giftCardObject/{resourceId}",
+	//   "response": {
+	//     "$ref": "GiftCardObject"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+// method id "walletobjects.genericobject.insert":
+
+type GenericobjectInsertCall struct {
+	s              *Service
+	genericobject  *GenericObject
+	urlParams_     gensupport.URLParams
+	ctx_           context.Context
+	header_        http.Header
+}
+
+// Insert: Inserts an gift card object with the given ID and properties.
+func (r *GenericobjectService) Insert(genericobject *GenericObject) *GenericobjectInsertCall {
+	c := &GiftcardobjectInsertCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.giftcardobject = giftcardobject
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericobjectInsertCall) Fields(s ...googleapi.Field) *GenericobjectInsertCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericobjectInsertCall) Context(ctx context.Context) *GenericobjectInsertCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericobjectInsertCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericobjectInsertCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.genericobject)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/giftCardObject")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("POST", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.genericobject.insert" call.
+// Exactly one of *GiftCardObject or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *GiftCardObject.ServerResponse.Header or (if a response was returned
+// at all) in error.(*googleapi.Error).Header. Use
+// googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericobjectInsertCall) Do(opts ...googleapi.CallOption) (*GenericObject, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GenericObject{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Inserts an gift card object with the given ID and properties.",
+	//   "flatPath": "walletobjects/v1/giftCardObject",
+	//   "httpMethod": "POST",
+	//   "id": "walletobjects.giftcardobject.insert",
+	//   "parameterOrder": [],
+	//   "parameters": {},
+	//   "path": "walletobjects/v1/giftCardObject",
+	//   "request": {
+	//     "$ref": "GiftCardObject"
+	//   },
+	//   "response": {
+	//     "$ref": "GiftCardObject"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+// method id "walletobjects.genericobject.list":
+
+type GenericobjectListCall struct {
+	s            *Service
+	urlParams_   gensupport.URLParams
+	ifNoneMatch_ string
+	ctx_         context.Context
+	header_      http.Header
+}
+
+// List: Returns a list of all generic card objects for a given issuer ID.
+func (r *GenericobjectService) List() *GenericobjectListCall {
+	c := &GenericobjectListCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	return c
+}
+
+// ClassId sets the optional parameter "classId": The ID of the class
+// whose objects will be listed.
+func (c *GenericobjectListCall) ClassId(classId string) *GenericobjectListCall {
+	c.urlParams_.Set("classId", classId)
+	return c
+}
+
+// MaxResults sets the optional parameter "maxResults": Identifies the
+// max number of results returned by a list. All results
+// are returned if `maxResults` isn't defined.
+func (c *GenericobjectListCall) MaxResults(maxResults int64) *GenericobjectListCall {
+	c.urlParams_.Set("maxResults", fmt.Sprint(maxResults))
+	return c
+}
+
+// Token sets the optional parameter "token": Used to get the next set
+// of results if `maxResults` is
+// specified, but more than `maxResults` objects are available
+// in a list. For example, if you have a list of 200 objects and you
+// call
+// list with `maxResults` set to 20, list will return the first
+// 20 objects and a token. Call list again with `maxResults`
+// set to 20 and the token to get the next 20 objects.
+func (c *GenericobjectListCall) Token(token string) *GenericobjectListCall {
+	c.urlParams_.Set("token", token)
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericobjectListCall) Fields(s ...googleapi.Field) *GenericobjectListCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// IfNoneMatch sets the optional parameter which makes the operation
+// fail if the object's ETag matches the given value. This is useful for
+// getting updates only after the object has changed since the last
+// request. Use googleapi.IsNotModified to check whether the response
+// error from Do is the result of In-None-Match.
+func (c *GenericobjectListCall) IfNoneMatch(entityTag string) *GenericobjectListCall {
+	c.ifNoneMatch_ = entityTag
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericobjectListCall) Context(ctx context.Context) *GenericobjectListCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericobjectListCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericobjectListCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	if c.ifNoneMatch_ != "" {
+		reqHeaders.Set("If-None-Match", c.ifNoneMatch_)
+	}
+	var body io.Reader = nil
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericObject")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("GET", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.genericobject.list" call.
+// Exactly one of *GiftCardObjectListResponse or error will be non-nil.
+// Any non-2xx status code is an error. Response headers are in either
+// *GiftCardObjectListResponse.ServerResponse.Header or (if a response
+// was returned at all) in error.(*googleapi.Error).Header. Use
+// googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericobjectListCall) Do(opts ...googleapi.CallOption) (*GenericObjectListResponse, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GenericObjectListResponse{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Returns a list of all gift card objects for a given issuer ID.",
+	//   "flatPath": "walletobjects/v1/giftCardObject",
+	//   "httpMethod": "GET",
+	//   "id": "walletobjects.giftcardobject.list",
+	//   "parameterOrder": [],
+	//   "parameters": {
+	//     "classId": {
+	//       "description": "The ID of the class whose objects will be listed.",
+	//       "location": "query",
+	//       "type": "string"
+	//     },
+	//     "maxResults": {
+	//       "description": "Identifies the max number of results returned by a list. All results\nare returned if `maxResults` isn't defined.",
+	//       "format": "int32",
+	//       "location": "query",
+	//       "type": "integer"
+	//     },
+	//     "token": {
+	//       "description": "Used to get the next set of results if `maxResults` is\nspecified, but more than `maxResults` objects are available\nin a list. For example, if you have a list of 200 objects and you call\nlist with `maxResults` set to 20, list will return the first\n20 objects and a token. Call list again with `maxResults`\nset to 20 and the token to get the next 20 objects.",
+	//       "location": "query",
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "walletobjects/v1/giftCardObject",
+	//   "response": {
+	//     "$ref": "GiftCardObjectListResponse"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+// method id "walletobjects.genericobject.patch":
+
+type GenericobjectPatchCall struct {
+	s              *Service
+	resourceId     string
+	genericobject *GenericObject
+	urlParams_     gensupport.URLParams
+	ctx_           context.Context
+	header_        http.Header
+}
+
+// Patch: Updates the gift card object referenced by the given object
+// ID. This
+// method supports patch semantics.
+func (r *GenericobjectService) Patch(resourceId string, genericobject *GenericObject) *GenericobjectPatchCall {
+	c := &GenericobjectPatchCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.resourceId = resourceId
+	c.genericobject = genericobject
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericobjectPatchCall) Fields(s ...googleapi.Field) *GenericobjectPatchCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericobjectPatchCall) Context(ctx context.Context) *GenericobjectPatchCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericobjectPatchCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericobjectPatchCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.genericobject)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericObject/{resourceId}")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("PATCH", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"resourceId": c.resourceId,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.giftcardobject.patch" call.
+// Exactly one of *GiftCardObject or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *GiftCardObject.ServerResponse.Header or (if a response was returned
+// at all) in error.(*googleapi.Error).Header. Use
+// googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericobjectPatchCall) Do(opts ...googleapi.CallOption) (*GenericObject, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GenericObject{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Updates the gift card object referenced by the given object ID. This\nmethod supports patch semantics.",
+	//   "flatPath": "walletobjects/v1/giftCardObject/{resourceId}",
+	//   "httpMethod": "PATCH",
+	//   "id": "walletobjects.giftcardobject.patch",
+	//   "parameterOrder": [
+	//     "resourceId"
+	//   ],
+	//   "parameters": {
+	//     "resourceId": {
+	//       "description": "The unique identifier for an object. This ID must be unique across all\nobjects from an issuer. This value should follow the format \u003cvar\u003eissuer\nID\u003c/var\u003e.\u003cvar\u003eidentifier\u003c/var\u003e where the former is issued by Google and\nlatter is chosen by you. Your unique identifier should only include\nalphanumeric characters, '.', '_', or '-'.",
+	//       "location": "path",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "walletobjects/v1/giftCardObject/{resourceId}",
+	//   "request": {
+	//     "$ref": "GiftCardObject"
+	//   },
+	//   "response": {
+	//     "$ref": "GiftCardObject"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+// method id "walletobjects.genericobject.update":
+
+type GenericobjectUpdateCall struct {
+	s              *Service
+	resourceId     string
+	genericobject *GenericObject
+	urlParams_     gensupport.URLParams
+	ctx_           context.Context
+	header_        http.Header
+}
+
+// Update: Updates the gift card object referenced by the given object
+// ID.
+func (r *GenericobjectService) Update(resourceId string, genericobject *GenericObject) *GenericobjectUpdateCall {
+	c := &GenericobjectUpdateCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.resourceId = resourceId
+	c.genericobject = genericobject
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *GenericobjectUpdateCall) Fields(s ...googleapi.Field) *GenericobjectUpdateCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *GenericobjectUpdateCall) Context(ctx context.Context) *GenericobjectUpdateCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *GenericobjectUpdateCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *GenericobjectUpdateCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	reqHeaders.Set("x-goog-api-client", "gl-go/1.13.6 gdcl/20200115")
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.genericobject)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	c.urlParams_.Set("prettyPrint", "false")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericObject/{resourceId}")
+	urls += "?" + c.urlParams_.Encode()
+	req, err := http.NewRequest("PUT", urls, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"resourceId": c.resourceId,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "walletobjects.genericobject.update" call.
+// Exactly one of *GiftCardObject or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *GiftCardObject.ServerResponse.Header or (if a response was returned
+// at all) in error.(*googleapi.Error).Header. Use
+// googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *GenericobjectUpdateCall) Do(opts ...googleapi.CallOption) (*GenericObject, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &GenericObject{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Updates the gift card object referenced by the given object ID.",
+	//   "flatPath": "walletobjects/v1/giftCardObject/{resourceId}",
+	//   "httpMethod": "PUT",
+	//   "id": "walletobjects.giftcardobject.update",
+	//   "parameterOrder": [
+	//     "resourceId"
+	//   ],
+	//   "parameters": {
+	//     "resourceId": {
+	//       "description": "The unique identifier for an object. This ID must be unique across all\nobjects from an issuer. This value should follow the format \u003cvar\u003eissuer\nID\u003c/var\u003e.\u003cvar\u003eidentifier\u003c/var\u003e where the former is issued by Google and\nlatter is chosen by you. Your unique identifier should only include\nalphanumeric characters, '.', '_', or '-'.",
+	//       "location": "path",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "walletobjects/v1/giftCardObject/{resourceId}",
+	//   "request": {
+	//     "$ref": "GiftCardObject"
+	//   },
+	//   "response": {
+	//     "$ref": "GiftCardObject"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/wallet_object.issuer"
+	//   ]
+	// }
+
+}
+
+////// WOAHBUDDY STOP HERE /////////////////////////////////////////////////////////
 
 // method id "walletobjects.giftcardclass.addmessage":
 
