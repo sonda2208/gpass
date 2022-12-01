@@ -12122,7 +12122,7 @@ type GenericclassAddmessageCall struct {
 	header_           http.Header
 }
 
-// Addmessage: Adds a message to the gift card class referenced by the
+// Addmessage: Adds a message to the generic class referenced by the
 // given class ID.
 func (r *GenericclassService) Addmessage(resourceId string, addmessagerequest *AddMessageRequest) *GenericclassAddmessageCall {
 	c := &GenericclassAddmessageCall{s: r.s, urlParams_: make(gensupport.URLParams)}
@@ -12450,7 +12450,7 @@ func (c *GenericclassInsertCall) doRequest(alt string) (*http.Response, error) {
 	reqHeaders.Set("Content-Type", "application/json")
 	c.urlParams_.Set("alt", alt)
 	c.urlParams_.Set("prettyPrint", "false")
-	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/giftCardClass")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericClass")
 	urls += "?" + c.urlParams_.Encode()
 	req, err := http.NewRequest("POST", urls, body)
 	if err != nil {
@@ -13219,7 +13219,7 @@ func (c *GenericobjectGetCall) Do(opts ...googleapi.CallOption) (*GenericObject,
 	if err := googleapi.CheckResponse(res); err != nil {
 		return nil, err
 	}
-	ret := &GiftCardObject{
+	ret := &GenericObject{
 		ServerResponse: googleapi.ServerResponse{
 			Header:         res.Header,
 			HTTPStatusCode: res.StatusCode,
@@ -13269,8 +13269,8 @@ type GenericobjectInsertCall struct {
 
 // Insert: Inserts an gift card object with the given ID and properties.
 func (r *GenericobjectService) Insert(genericobject *GenericObject) *GenericobjectInsertCall {
-	c := &GiftcardobjectInsertCall{s: r.s, urlParams_: make(gensupport.URLParams)}
-	c.giftcardobject = giftcardobject
+	c := &GenericobjectInsertCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.genericobject = genericobject
 	return c
 }
 
@@ -13314,7 +13314,7 @@ func (c *GenericobjectInsertCall) doRequest(alt string) (*http.Response, error) 
 	reqHeaders.Set("Content-Type", "application/json")
 	c.urlParams_.Set("alt", alt)
 	c.urlParams_.Set("prettyPrint", "false")
-	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/giftCardObject")
+	urls := googleapi.ResolveRelative(c.s.BasePath, "walletobjects/v1/genericObject")
 	urls += "?" + c.urlParams_.Encode()
 	req, err := http.NewRequest("POST", urls, body)
 	if err != nil {
