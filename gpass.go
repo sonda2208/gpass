@@ -13,7 +13,7 @@ import (
 
 	"golang.org/x/oauth2/google"
 
-	"github.com/sonda2208/gpass/walletobjects"
+	"github.com/Hutchison-Technologies/gpass/walletobjects"
 )
 
 type Client struct {

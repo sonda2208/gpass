@@ -5,7 +5,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/sonda2208/gpass"
+	"github.com/Hutchison-Technologies/gpass/walletobjects"
 	"github.com/stretchr/testify/require"
 )
 

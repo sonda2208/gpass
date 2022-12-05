@@ -1,6 +1,6 @@
 package gpass
 
-import "github.com/sonda2208/gpass/walletobjects"
+"github.com/Hutchison-Technologies/gpass/walletobjects"
 
 type Money struct {
 	CurrencyCode string

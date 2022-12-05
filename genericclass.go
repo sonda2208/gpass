@@ -3,7 +3,7 @@ package googlepasses
 import (
 	"strconv"
 
-	"github.com/sonda2208/googlepasses-go-client/walletobject"
+	"github.com/Hutchison-Technologies/gpass/walletobjects"
 )
 
 const (
@@ -68,9 +68,7 @@ func (c *GenericClassClient) List(issuerID string, maxResults int, paginationTok
 		service:     &c.Client,
 	}
 
-	
 	req.queryParams.Set("issuerId", issuerID)
-	
 
 	if maxResults > 0 {
 		req.queryParams.Set("maxResults", strconv.Itoa(maxResults))

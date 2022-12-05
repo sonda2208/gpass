@@ -1,6 +1,6 @@
 package gpass
 
-import "github.com/sonda2208/gpass/walletobjects"
+import "github.com/Hutchison-Technologies/gpass/walletobjects"
 
 type LinksModuleData struct {
 	URIs []*URI

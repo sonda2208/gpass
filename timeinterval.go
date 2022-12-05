@@ -3,7 +3,7 @@ package gpass
 import (
 	"time"
 
-	"github.com/sonda2208/gpass/walletobjects"
+	"github.com/Hutchison-Technologies/gpass/walletobjects"
 )
 
 type DateTime struct {

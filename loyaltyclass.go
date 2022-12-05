@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/sonda2208/gpass/walletobjects"
+	"github.com/Hutchison-Technologies/gpass/walletobjects"
 )
 
 type LoyaltyClass struct {
