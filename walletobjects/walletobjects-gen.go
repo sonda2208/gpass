@@ -128,6 +128,8 @@ func New(client *http.Client) (*Service, error) {
 	s.Smarttap = NewSmarttapService(s)
 	s.Transitclass = NewTransitclassService(s)
 	s.Transitobject = NewTransitobjectService(s)
+	s.Genericclass = NewGenericclassService(s)
+	s.Genericobject = NewGenericobjectService(s)
 	return s, nil
 }
 
@@ -143,6 +145,10 @@ type Service struct {
 	Flightclass *FlightclassService
 
 	Flightobject *FlightobjectService
+
+	GenericClass *GenericClassService
+
+	GenericObject *GenericObjectService
 
 	Giftcardclass *GiftcardclassService
 
