@@ -3528,75 +3528,21 @@ func (s *FrequentFlyerInfo) MarshalJSON() ([]byte, error) {
 ///////////// START CUSTOM GENERIC CLASS INJECTION /////////////
 
 type GenericClass struct {
-		// AllowBarcodeRedemption: Determines whether the merchant supports gift
-	// card redemption using
-	// barcode. If true, app displays a barcode for the gift card on the
-	// Gift card
-	// details screen. If false, a barcode is not displayed.
-	AllowBarcodeRedemption bool `json:"allowBarcodeRedemption,omitempty"`
-
-	// AllowMultipleUsersPerObject: Deprecated. Use
-	// `multipleDevicesAndHoldersAllowedStatus`
-	// instead.
-	AllowMultipleUsersPerObject bool `json:"allowMultipleUsersPerObject,omitempty"`
-
 	// CallbackOptions: Callback options to be used to call the issuer back
 	// for every save/delete
 	// of an object for this class by the end-user.
 	// All objects of this class are eligible for the callback.
 	CallbackOptions *CallbackOptions `json:"callbackOptions,omitempty"`
 
-	// CardNumberLabel: The label to display for the card number, such as
-	// "Card Number".
-	CardNumberLabel string `json:"cardNumberLabel,omitempty"`
-
 	// ClassTemplateInfo: Template information about how the class should be
 	// displayed.
 	// If unset, Google will fallback to a default set of fields to display.
 	ClassTemplateInfo *ClassTemplateInfo `json:"classTemplateInfo,omitempty"`
 
-	// CountryCode: Country code used to display the card's country (when
-	// the user is not in
-	// that country), as well as to display localized content when content
-	// is not
-	// available in the user's locale.
-	CountryCode string `json:"countryCode,omitempty"`
-
 	// EnableSmartTap: Available only to Smart Tap enabled partners.
 	// Contact support for
 	// additional guidance.
 	EnableSmartTap bool `json:"enableSmartTap,omitempty"`
-
-	// EventNumberLabel: The label to display for event number, such as
-	// "Target Event #".
-	EventNumberLabel string `json:"eventNumberLabel,omitempty"`
-
-	// HeroImage: Optional banner image displayed on the front of the card.
-	// If none is
-	// present, nothing will be displayed. The image will display at 100%
-	// width.
-	HeroImage *Image `json:"heroImage,omitempty"`
-
-	// HexBackgroundColor: The background color for the card. If not set the
-	// dominant color of the
-	// hero image is used, and if no hero image is set, the dominant color
-	// of the
-	// logo is used. The format is #<var>rrggbb</var> where
-	// <var>rrggbb</var> is a
-	// hex RGB triplet, such as `#ffcc00`. You can also use the
-	// shorthand version of the RGB triplet which is #<var>rgb</var>, such
-	// as
-	// `#fc0`.
-	HexBackgroundColor string `json:"hexBackgroundColor,omitempty"`
-
-	// HomepageUri: The URI of your application's home page. Populating the
-	// URI in this field
-	// results in the exact same behavior as populating an URI in
-	// linksModuleData
-	// (when an object is rendered, a link to the homepage is shown in what
-	// would
-	// usually be thought of as the linksModuleData section of the object).
-	HomepageUri *Uri `json:"homepageUri,omitempty"`
 
 	// Id: Required. The unique identifier for a class. This ID must be
 	// unique across all
@@ -3614,68 +3560,10 @@ type GenericClass struct {
 	// object level and 1 for class object level.
 	ImageModulesData []*ImageModuleData `json:"imageModulesData,omitempty"`
 
-	// InfoModuleData: Deprecated. Use textModulesData instead.
-	InfoModuleData *InfoModuleData `json:"infoModuleData,omitempty"`
-
-	// IssuerName: Required. The issuer name. Recommended maximum length is
-	// 20 characters to ensure full
-	// string is displayed on smaller screens.
-	IssuerName string `json:"issuerName,omitempty"`
-
-	// Kind: Identifies what kind of resource this is. Value: the fixed
-	// string
-	// "walletobjects#giftCardClass".
-	Kind string `json:"kind,omitempty"`
-
 	// LinksModuleData: Links module data. If links module data is also
 	// defined on the object, both
 	// will be displayed.
 	LinksModuleData *LinksModuleData `json:"linksModuleData,omitempty"`
-
-	// LocalizedCardNumberLabel: Translated strings for the
-	// card_number_label.
-	LocalizedCardNumberLabel *LocalizedString `json:"localizedCardNumberLabel,omitempty"`
-
-	// LocalizedEventNumberLabel: Translated strings for the
-	// event_number_label.
-	LocalizedEventNumberLabel *LocalizedString `json:"localizedEventNumberLabel,omitempty"`
-
-	// LocalizedIssuerName: Translated strings for the issuer_name.
-	// Recommended maximum length is 20
-	// characters to ensure full string is displayed on smaller screens.
-	LocalizedIssuerName *LocalizedString `json:"localizedIssuerName,omitempty"`
-
-	// LocalizedMerchantName: Translated strings for the merchant_name. The
-	// app may display an ellipsis
-	// after the first 20 characters to ensure full string is displayed on
-	// smaller
-	// screens.
-	LocalizedMerchantName *LocalizedString `json:"localizedMerchantName,omitempty"`
-
-	// LocalizedPinLabel: Translated strings for the pin_label.
-	LocalizedPinLabel *LocalizedString `json:"localizedPinLabel,omitempty"`
-
-	// Locations: The list of locations where the object can be used. The
-	// platform uses this
-	// information to trigger geolocated notifications to users. Note
-	// that
-	// locations in the object override locations in the class which
-	// override
-	// locations in the Google Places ID.
-	Locations []*LatLongPoint `json:"locations,omitempty"`
-
-	// MerchantName: Merchant name, such as "Adam's Apparel". The app may
-	// display an ellipsis
-	// after the first 20 characters to ensure full string is displayed on
-	// smaller
-	// screens.
-	MerchantName string `json:"merchantName,omitempty"`
-
-	// Messages: An array of messages displayed in the app. All users of
-	// this object will
-	// receive its associated messages. The maximum number of these fields
-	// is 10.
-	Messages []*Message `json:"messages,omitempty"`
 
 	// MultipleDevicesAndHoldersAllowedStatus: Identifies whether multiple
 	// users and devices will save the same object
@@ -3697,56 +3585,10 @@ type GenericClass struct {
 	// Deprecated.
 	MultipleDevicesAndHoldersAllowedStatus string `json:"multipleDevicesAndHoldersAllowedStatus,omitempty"`
 
-	// PinLabel: The label to display for the PIN, such as "4-digit PIN".
-	PinLabel string `json:"pinLabel,omitempty"`
-
-	// ProgramLogo: The logo of the gift card program or company. This logo
-	// is displayed in
-	// both the details and list views of the app.
-	ProgramLogo *Image `json:"programLogo,omitempty"`
-
 	// RedemptionIssuers: Available only to Smart Tap enabled partners.
 	// Contact support for
 	// additional guidance.
 	RedemptionIssuers googleapi.Int64s `json:"redemptionIssuers,omitempty"`
-
-	// Review: The review comments set by the platform when a class is
-	// marked
-	// `approved` or `rejected`.
-	Review *Review `json:"review,omitempty"`
-
-	// ReviewStatus: Required. The status of the class. This field can be
-	// set to `draft`
-	// or `underReview` using the insert, patch, or update API calls.
-	// Once the review state is changed from `draft` it may not be
-	// changed back to `draft`.
-	//
-	// You should keep this field to `draft` when the class is
-	// under
-	// development. A `draft` class cannot be used to create
-	// any
-	// object.
-	//
-	// You should set this field to `underReview` when you
-	// believe the class is ready for use. The platform will automatically
-	// set
-	// this field to `approved` and it can be immediately used to
-	// create or migrate objects.
-	//
-	// When updating an already `approved` class you should keep
-	// setting this field to `underReview`.
-	//
-	// Possible values:
-	//   "REVIEW_STATUS_UNSPECIFIED"
-	//   "UNDER_REVIEW"
-	//   "underReview" - Legacy alias for `UNDER_REVIEW`.  Deprecated.
-	//   "APPROVED"
-	//   "approved" - Legacy alias for `APPROVED`.  Deprecated.
-	//   "REJECTED"
-	//   "rejected" - Legacy alias for `REJECTED`.  Deprecated.
-	//   "DRAFT"
-	//   "draft" - Legacy alias for `DRAFT`.  Deprecated.
-	ReviewStatus string `json:"reviewStatus,omitempty"`
 
 	// TextModulesData: Text module data. If text module data is also
 	// defined on the class, both
@@ -3754,12 +3596,6 @@ type GenericClass struct {
 	// from
 	// the object and 10 from the class.
 	TextModulesData []*TextModuleData `json:"textModulesData,omitempty"`
-
-	// Version: Deprecated
-	Version int64 `json:"version,omitempty,string"`
-
-	// WordMark: Deprecated.
-	WordMark *Image `json:"wordMark,omitempty"`
 
 	// ServerResponse contains the HTTP response code and headers from the
 	// server.
@@ -3862,24 +3698,19 @@ type GenericObject struct { //TODO THIS MUST BE MAPPED TO THE GCLOUD API FOUND H
 	// AppLinkData: Optional information about the partner app link.
 	AppLinkData *AppLinkData `json:"appLinkData,omitempty"`
 
-	// Balance: The card's monetary balance.
-	Balance *Money `json:"balance,omitempty"`
-
-	// BalanceUpdateTime: The date and time when the balance was last
-	// updated.
-	//
-	// Offset is required.
-	//
-	// If balance is updated and this property is not provided, system
-	// will
-	// default to the current time.
-	BalanceUpdateTime *DateTime `json:"balanceUpdateTime,omitempty"`
-
 	// Barcode: The barcode type and value.
-	Barcode *Barcode `json:"barcode,omitempty"`
+	RotatingBarcode *RotatingBarcode `json:"rotatingBarcode,omitempty"`
 
-	// CardNumber: Required. The card's number.
-	CardNumber string `json:"cardNumber,omitempty"`
+	// CardTitle: Required. The card's title.
+	CardTitle *LocalizedString `json:"cardNumber,omitempty"`
+
+	Subheader *LocalizedString `json:"subheader,omitempty"`
+
+	Header *LocalizedString `json:"header,omitempty"`
+
+	HeroImage *Image `json:"heroImage,omitempty"`
+
+	Barcode Barcode `json:"barcode,omitempty"`
 
 	// ClassId: Required. The class associated with this object. The class
 	// must be of the same type
@@ -3896,30 +3727,6 @@ type GenericObject struct { //TODO THIS MUST BE MAPPED TO THE GCLOUD API FOUND H
 	// These fields are
 	// retrieved during a GET.
 	ClassReference *GenericClass `json:"classReference,omitempty"`
-
-	// DisableExpirationNotification: Indicates if notifications should
-	// explicitly be suppressed. If this field
-	// is set to true, regardless of the `messages` field,
-	// expiration
-	// notifications to the user will be suppressed. By default, this field
-	// is set
-	// to false.
-	//
-	// Currently, this can only be set for offers.https://developers.google.com/wallet/generic/rest/v1/genericobject
-	DisableExpirationNotification bool `json:"disableExpirationNotification,omitempty"`
-
-	// EventNumber: The card's event number, an optional field used by some
-	// gift cards.
-	EventNumber string `json:"eventNumber,omitempty"`
-
-	// HasLinkedDevice: Whether this object is currently linked to a single
-	// device. This field is
-	// set by the platform when a user saves the object, linking it to
-	// their
-	// device. Intended for use by select partners. Contact support
-	// for
-	// additional information.
-	HasLinkedDevice bool `json:"hasLinkedDevice,omitempty"`
 
 	// HasUsers: Indicates if the object has users. This field is set by the
 	// platform.
@@ -3954,21 +3761,13 @@ type GenericObject struct { //TODO THIS MUST BE MAPPED TO THE GCLOUD API FOUND H
 	// will be displayed.
 	LinksModuleData *LinksModuleData `json:"linksModuleData,omitempty"`
 
-	// Locations: The list of locations where the object can be used. The
-	// platform uses thishttps://developers.google.com/wallet/generic/rest/v1/genericobject
-	// locations in the object override locations in the class which
-	// override
-	// locations in the Google Places ID.
-	Locations []*LatLongPoint `json:"locations,omitempty"`
+	Logo *Image `json:"image,omitempty"`
 
-	// Messages: An array of messages displayed in the app. All users of
-	// this object will
-	// receive its associated messages. The maximum number of these fields
-	// is 10.
-	Messages []*Message `json:"messages,omitempty"`
+	HexBackgroundColor string `json:"hexBackgroundColor,omitempty"`
 
-	// Pin: The card's PIN.
-	Pin string `json:"pin,omitempty"`
+	Notifications Notifications `json:"notifications,omitempty"`
+
+	GroupingInfo GroupingInfo `json:"groupingInfo,omitempty"`
 
 	// SmartTapRedemptionValue: Available only to Smart Tap enabled
 	// partners. Contact support for
