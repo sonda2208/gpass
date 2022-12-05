@@ -1,4 +1,4 @@
-module github.com/sonda2208/gpass
+module github.com/Hutchison-Technologies/gpass
 
 go 1.13
 
